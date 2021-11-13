@@ -1,6 +1,7 @@
 # Criando uma aplicação com Algoritmos Genéticos
 Utilização da biblioteca Accord.Genetic 3.8.0
-As etapas do algoritmo genético.
+
+## As etapas do algoritmo genético.
 1. Gerar Soluções Aleatórias Iniciais (População Inicial)
 2. Para cada solução avalie o quão boa ela é. (Avalie a aptidão)
 3. Unir as melhores soluções para criar novas soluções (Cross Over)
