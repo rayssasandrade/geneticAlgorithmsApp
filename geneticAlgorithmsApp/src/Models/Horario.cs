@@ -1,12 +1,12 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-//namespace geneticAlgorithmsApp.src.Models
-//{
-//    class Horario
-//    {
-//        public string Id { get; set; }
-//        public List<Turma> Turmas { get; set; }
-//    }
-//}
+namespace geneticAlgorithmsApp.src.Models
+{
+    class Horario
+    {
+        public string Id { get; set; }
+        public List<Turma> Turmas { get; set; }
+    }
+}
