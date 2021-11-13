@@ -37,9 +37,6 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Creditos")
-                        .HasColumnType("int");
-
                     b.Property<string>("DisciplinaId")
                         .HasColumnType("nvarchar(450)");
 
@@ -47,6 +44,12 @@ namespace geneticAlgorithmsApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Periodo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QtdCreditos")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QtdPreRequisitosCreditos")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -84,17 +87,20 @@ namespace geneticAlgorithmsApp.Migrations
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Turma", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("LocalId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CursoId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("DiaDaSemana")
-                        .HasColumnType("int");
+                    b.Property<string>("ProfessorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DisciplinaId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("DiaDaSemana")
+                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("HorarioFim")
                         .HasColumnType("time");
@@ -102,19 +108,14 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<TimeSpan>("HorarioInicio")
                         .HasColumnType("time");
 
-                    b.Property<string>("LocalId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfessorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
+                    b.HasKey("LocalId", "CursoId", "ProfessorId", "DisciplinaId");
 
                     b.HasIndex("CursoId");
 
                     b.HasIndex("DisciplinaId");
-
-                    b.HasIndex("LocalId");
 
                     b.HasIndex("ProfessorId");
 
@@ -124,7 +125,7 @@ namespace geneticAlgorithmsApp.Migrations
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", null)
-                        .WithMany("PreRequisitos")
+                        .WithMany("PreRequisitosDisciplinas")
                         .HasForeignKey("DisciplinaId");
                 });
 
@@ -132,19 +133,27 @@ namespace geneticAlgorithmsApp.Migrations
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Curso", "Curso")
                         .WithMany("Turmas")
-                        .HasForeignKey("CursoId");
+                        .HasForeignKey("CursoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", "Disciplina")
                         .WithMany("Turmas")
-                        .HasForeignKey("DisciplinaId");
+                        .HasForeignKey("DisciplinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Local", "Local")
                         .WithMany("Turmas")
-                        .HasForeignKey("LocalId");
+                        .HasForeignKey("LocalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Professor", "Professor")
                         .WithMany("Turmas")
-                        .HasForeignKey("ProfessorId");
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Curso");
 
@@ -162,7 +171,7 @@ namespace geneticAlgorithmsApp.Migrations
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
                 {
-                    b.Navigation("PreRequisitos");
+                    b.Navigation("PreRequisitosDisciplinas");
 
                     b.Navigation("Turmas");
                 });

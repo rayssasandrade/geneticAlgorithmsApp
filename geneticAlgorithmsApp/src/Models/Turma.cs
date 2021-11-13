@@ -13,7 +13,9 @@ namespace geneticAlgorithmsApp.src.Models
         public Local Local { get; set; }
         public string CursoId { get; set; }
         public Curso Curso { get; set; }
+        public string ProfessorId { get; set; }
         public Professor Professor { get; set; }
+        public string DisciplinaId { get; set; }
         public Disciplina Disciplina { get; set; }
 
     }

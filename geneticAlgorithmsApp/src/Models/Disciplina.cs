@@ -7,9 +7,10 @@ namespace geneticAlgorithmsApp.src.Models
     {
         public string Id { get; set; }
         public String Nome { get; set; }
-        public List<Disciplina> PreRequisitos { get; set; }
+        public List<Disciplina> PreRequisitosDisciplinas { get; set; }
         public List<Turma> Turmas { get; set; }
-        public int Creditos { get; set; }
+        public int QtdCreditos { get; set; }
+        public int QtdPreRequisitosCreditos { get; set; }
         public int Periodo { get; set; }
     }
 }

@@ -20,5 +20,17 @@ namespace geneticAlgorithmsApp.src.Data
                     );
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Turma>().HasKey("LocalId", "CursoId", "ProfessorId", "DisciplinaId");
+            modelBuilder.Entity<Curso>().HasMany(curso => curso.Turmas);
+            modelBuilder.Entity<Disciplina>().HasMany(disciplina => disciplina.Turmas);
+            modelBuilder.Entity<Disciplina>().HasMany(disciplina => disciplina.PreRequisitosDisciplinas);
+            modelBuilder.Entity<Local>().HasMany(local => local.Turmas);
+            modelBuilder.Entity<Professor>().HasMany(professor => professor.Turmas);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

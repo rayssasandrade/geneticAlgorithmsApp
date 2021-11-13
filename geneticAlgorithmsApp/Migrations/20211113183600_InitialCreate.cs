@@ -25,7 +25,8 @@ namespace geneticAlgorithmsApp.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Creditos = table.Column<int>(type: "int", nullable: false),
+                    QtdCreditos = table.Column<int>(type: "int", nullable: false),
+                    QtdPreRequisitosCreditos = table.Column<int>(type: "int", nullable: false),
                     Periodo = table.Column<int>(type: "int", nullable: false),
                     DisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -68,42 +69,42 @@ namespace geneticAlgorithmsApp.Migrations
                 name: "Turma",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LocalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CursoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProfessorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DiaDaSemana = table.Column<int>(type: "int", nullable: false),
                     HorarioInicio = table.Column<TimeSpan>(type: "time", nullable: false),
-                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false),
-                    LocalId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CursoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ProfessorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    DisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Turma", x => x.Id);
+                    table.PrimaryKey("PK_Turma", x => new { x.LocalId, x.CursoId, x.ProfessorId, x.DisciplinaId });
                     table.ForeignKey(
                         name: "FK_Turma_Curso_CursoId",
                         column: x => x.CursoId,
                         principalTable: "Curso",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Turma_Disciplina_DisciplinaId",
                         column: x => x.DisciplinaId,
                         principalTable: "Disciplina",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Turma_Local_LocalId",
                         column: x => x.LocalId,
                         principalTable: "Local",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Turma_Professor_ProfessorId",
                         column: x => x.ProfessorId,
                         principalTable: "Professor",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -120,11 +121,6 @@ namespace geneticAlgorithmsApp.Migrations
                 name: "IX_Turma_DisciplinaId",
                 table: "Turma",
                 column: "DisciplinaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Turma_LocalId",
-                table: "Turma",
-                column: "LocalId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Turma_ProfessorId",
