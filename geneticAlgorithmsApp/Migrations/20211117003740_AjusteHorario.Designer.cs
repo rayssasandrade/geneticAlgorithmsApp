@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using geneticAlgorithmsApp.src.Data;
 
 namespace geneticAlgorithmsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211117003740_AjusteHorario")]
+    partial class AjusteHorario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace geneticAlgorithmsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cursos");
+                    b.ToTable("Curso");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
@@ -56,7 +58,7 @@ namespace geneticAlgorithmsApp.Migrations
 
                     b.HasIndex("DisciplinaId");
 
-                    b.ToTable("Disciplinas");
+                    b.ToTable("Disciplina");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Local", b =>
@@ -69,7 +71,7 @@ namespace geneticAlgorithmsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locais");
+                    b.ToTable("Local");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Professor", b =>
@@ -82,7 +84,7 @@ namespace geneticAlgorithmsApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Professores");
+                    b.ToTable("Professor");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Turma", b =>
@@ -119,7 +121,7 @@ namespace geneticAlgorithmsApp.Migrations
 
                     b.HasIndex("ProfessorId");
 
-                    b.ToTable("Turmas");
+                    b.ToTable("Turma");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>

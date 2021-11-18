@@ -5,6 +5,7 @@ namespace geneticAlgorithmsApp.src.Models
 {
     public class Turma
     {
+        /*Levando em consideração turmas com apeneas uma vez na semana, não tendo a divisão do horário em duas vezes na semana*/
         public string Id { get; set; }
         public DayOfWeek DiaDaSemana { get; set; }
         public TimeSpan HorarioInicio { get; set; }

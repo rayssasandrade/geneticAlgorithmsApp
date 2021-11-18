@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "/tcr42QTKPkb9FYgd7ChGE5Qf3WB3XFG9zYYjAvbhqdldN/CUi3IbD0WQwZzvEHDOvy1iFaSugCde3ae9LdKOw==",
+  "dgSpecHash": "4XlfrwJB1RdzY0BUjFsfyqyOfk0LVRG+7tW3TYXJKPG92B0GrfoXLE/l3MnwfGyTaCkZ/8+ZEh+cJ1raSsuJZQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\rayss\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
+    "C:\\Users\\rayss\\.nuget\\packages\\accord.genetic\\3.8.0\\accord.genetic.3.8.0.nupkg.sha512",
+    "C:\\Users\\rayss\\.nuget\\packages\\accord.math\\3.8.0\\accord.math.3.8.0.nupkg.sha512",
     "C:\\Users\\rayss\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\rayss\\.nuget\\packages\\microsoft.aspnetcore.razor.design\\2.2.0\\microsoft.aspnetcore.razor.design.2.2.0.nupkg.sha512",
     "C:\\Users\\rayss\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

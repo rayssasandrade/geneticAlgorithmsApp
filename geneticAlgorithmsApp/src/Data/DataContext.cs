@@ -5,11 +5,11 @@ namespace geneticAlgorithmsApp.src.Data
 {
     class DataContext : DbContext
     {
-        public DbSet<Curso> Curso { get; set; }
-        public DbSet<Disciplina> Disciplina { get; set; }
-        public DbSet<Local> Local { get; set; }
-        public DbSet<Professor> Professor { get; set; }
-        public DbSet<Turma> Turma { get; set; }
+        public DbSet<Curso> Cursos { get; set; }
+        public DbSet<Disciplina> Disciplinas { get; set; }
+        public DbSet<Local> Locais { get; set; }
+        public DbSet<Professor> Professores { get; set; }
+        public DbSet<Turma> Turmas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

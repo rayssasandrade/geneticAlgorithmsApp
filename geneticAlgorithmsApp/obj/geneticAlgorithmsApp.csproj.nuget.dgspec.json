@@ -46,6 +46,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Accord.Genetic": {
+              "target": "Package",
+              "version": "[3.8.0, )"
+            },
             "Microsoft.AspNetCore.Razor.Design": {
               "target": "Package",
               "version": "[2.2.0, )"
