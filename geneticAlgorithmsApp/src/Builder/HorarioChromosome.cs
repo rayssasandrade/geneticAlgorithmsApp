@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Accord.Genetic;
 using geneticAlgorithmsApp.src.Data;
+using geneticAlgorithmsApp.src.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace geneticAlgorithmsApp.src.Builder
@@ -13,7 +14,7 @@ namespace geneticAlgorithmsApp.src.Builder
         private readonly DataContext _dataContext;
         static Random Random = new Random();
 
-        public List<ParteHorarioChromosome> Value;
+        public List<Turma> Value;
 
         public HorarioChromosome(DataContext dataContext)
         {
@@ -21,50 +22,63 @@ namespace geneticAlgorithmsApp.src.Builder
             Generate();
         }
 
-        public HorarioChromosome(List<ParteHorarioChromosome> partesHorario, DataContext dataContext)
+        public HorarioChromosome(List<Turma> partesHorario, DataContext dataContext)
         {
             _dataContext = dataContext;
             Value = partesHorario.ToList();
         }
 
+        static TimeSpan RandomHorarioInicio()
+        {
+            return TimeSpan.FromMilliseconds(Random.Next((int)TimeSpan.FromHours(9).TotalMilliseconds,
+                (int)TimeSpan.FromHours(17).TotalMilliseconds));
+        }
 
         public override void Generate()
         {
-            IEnumerable<ParteHorarioChromosome> generateRandomPartes()
-            {
-                var cursos = _dataContext.Cursos.Include(course => course.Turmas).ToList();
-
-                foreach (var curso in cursos)
-                {
-                    yield return new ParteHorarioChromosome()
-                    {
-                        //_dataContext.Turmas
-                    };
-                }
-            }
-
-            Value = generateRandomPartes().ToList();
+            var turmaAleatoria = _dataContext.Turmas.OrderBy(turma => Guid.NewGuid()).FirstOrDefault();
+            Value.Add(turmaAleatoria);
         }
 
         public override IChromosome Clone()
         {
-            throw new NotImplementedException();
+            return new HorarioChromosome(Value, _dataContext);
         }
 
         public override IChromosome CreateNew()
         {
-            throw new NotImplementedException();
+            var horarioChromosome = new HorarioChromosome(_dataContext);
+            horarioChromosome.Generate();
+            return horarioChromosome;
         }
 
         public override void Crossover(IChromosome pair)
         {
-            throw new NotImplementedException();
+            var randomVal = Random.Next(0, Value.Count - 2);
+            var otherChromsome = pair as HorarioChromosome;
+            for (int index = randomVal; index < otherChromsome.Value.Count; index++)
+            {
+                Value[index] = otherChromsome.Value[index];
+            }
         }
 
         public override void Mutate()
         {
-            throw new NotImplementedException();
+            var index = Random.Next(0, Value.Count - 1);
+            var horarioChromosome = Value.ElementAt(index);
+            var qtdHoras = horarioChromosome.HorarioFim.Subtract(horarioChromosome.HorarioInicio);
+            horarioChromosome.HorarioInicio = RandomHorarioInicio();
+            horarioChromosome.HorarioFim.Add(qtdHoras);
+            horarioChromosome.DiaDaSemana = (DayOfWeek)Random.Next(1, 6);
+            Value[index] = horarioChromosome;
         }
 
+        //public class FitnessFunction : IFitnessFunction
+        //{
+        //    public double Evaluate(IChromosome chromosome)
+        //    {
+                
+        //    }
+        //}
     }
 }
