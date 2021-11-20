@@ -68,7 +68,7 @@ namespace geneticAlgorithmsApp.src.Builder
             var horarioChromosome = Value.ElementAt(index);
             var qtdHoras = horarioChromosome.HorarioFim.Subtract(horarioChromosome.HorarioInicio);
             horarioChromosome.HorarioInicio = RandomHorarioInicio();
-            horarioChromosome.HorarioFim.Add(qtdHoras);
+            horarioChromosome.HorarioFim = horarioChromosome.HorarioInicio.Add(qtdHoras);
             horarioChromosome.DiaDaSemana = (DayOfWeek)Random.Next(1, 6);
             Value[index] = horarioChromosome;
         }
