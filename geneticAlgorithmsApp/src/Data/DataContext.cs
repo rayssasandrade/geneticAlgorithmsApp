@@ -23,14 +23,15 @@ namespace geneticAlgorithmsApp.src.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Turma>().HasKey("LocalId", "CursoId", "ProfessorId", "DisciplinaId");
-            modelBuilder.Entity<Curso>().HasMany(curso => curso.Turmas);
-            modelBuilder.Entity<Disciplina>().HasMany(disciplina => disciplina.Turmas);
-            modelBuilder.Entity<Disciplina>().HasMany(disciplina => disciplina.PreRequisitosDisciplinas);
-            modelBuilder.Entity<Local>().HasMany(local => local.Turmas);
-            modelBuilder.Entity<Professor>().HasMany(professor => professor.Turmas);
+            modelBuilder.Entity<PreRequisitoDisciplina>()
+            .HasOne(p => p.Disciplina)
+            .WithMany(b => b.PreRequisitoDisciplinas)
+            .HasForeignKey("RequisitoDisciplinaId");
 
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<PreRequisitoDisciplina>()
+           .HasOne(p => p.Disciplina)
+           .WithMany(b => b.PreRequisitoDisciplinas)
+           .HasForeignKey("DisciplinaId");
         }
     }
 }

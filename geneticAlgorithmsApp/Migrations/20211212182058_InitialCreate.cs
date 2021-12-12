@@ -1,0 +1,183 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace geneticAlgorithmsApp.Migrations
+{
+    public partial class InitialCreate : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Cursos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cursos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Disciplinas",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QtdCreditos = table.Column<int>(type: "int", nullable: false),
+                    QtdPreRequisitosCreditos = table.Column<int>(type: "int", nullable: false),
+                    Periodo = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Disciplinas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Locais",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locais", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Professores",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Professores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PreRequisitoDisciplina",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RequisitoDisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AnoPPC = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PreRequisitoDisciplina", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PreRequisitoDisciplina_Disciplinas_DisciplinaId",
+                        column: x => x.DisciplinaId,
+                        principalTable: "Disciplinas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PreRequisitoDisciplina_Disciplinas_RequisitoDisciplinaId",
+                        column: x => x.RequisitoDisciplinaId,
+                        principalTable: "Disciplinas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Turmas",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DiaDaSemana = table.Column<int>(type: "int", nullable: false),
+                    HorarioInicio = table.Column<TimeSpan>(type: "time", nullable: false),
+                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false),
+                    LocalId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CursoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProfessorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PeriodoLetivo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Turmas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Turmas_Cursos_CursoId",
+                        column: x => x.CursoId,
+                        principalTable: "Cursos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Turmas_Disciplinas_DisciplinaId",
+                        column: x => x.DisciplinaId,
+                        principalTable: "Disciplinas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Turmas_Locais_LocalId",
+                        column: x => x.LocalId,
+                        principalTable: "Locais",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Turmas_Professores_ProfessorId",
+                        column: x => x.ProfessorId,
+                        principalTable: "Professores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PreRequisitoDisciplina_DisciplinaId",
+                table: "PreRequisitoDisciplina",
+                column: "DisciplinaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PreRequisitoDisciplina_RequisitoDisciplinaId",
+                table: "PreRequisitoDisciplina",
+                column: "RequisitoDisciplinaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Turmas_CursoId",
+                table: "Turmas",
+                column: "CursoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Turmas_DisciplinaId",
+                table: "Turmas",
+                column: "DisciplinaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Turmas_LocalId",
+                table: "Turmas",
+                column: "LocalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Turmas_ProfessorId",
+                table: "Turmas",
+                column: "ProfessorId");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "PreRequisitoDisciplina");
+
+            migrationBuilder.DropTable(
+                name: "Turmas");
+
+            migrationBuilder.DropTable(
+                name: "Cursos");
+
+            migrationBuilder.DropTable(
+                name: "Disciplinas");
+
+            migrationBuilder.DropTable(
+                name: "Locais");
+
+            migrationBuilder.DropTable(
+                name: "Professores");
+        }
+    }
+}

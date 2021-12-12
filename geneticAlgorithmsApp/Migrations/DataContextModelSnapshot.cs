@@ -37,9 +37,6 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DisciplinaId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
@@ -53,8 +50,6 @@ namespace geneticAlgorithmsApp.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DisciplinaId");
 
                     b.ToTable("Disciplinas");
                 });
@@ -72,6 +67,31 @@ namespace geneticAlgorithmsApp.Migrations
                     b.ToTable("Locais");
                 });
 
+            modelBuilder.Entity("geneticAlgorithmsApp.src.Models.PreRequisitoDisciplina", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AnoPPC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisciplinaId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RequisitoDisciplinaId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DisciplinaId");
+
+                    b.HasIndex("RequisitoDisciplinaId");
+
+                    b.ToTable("PreRequisitoDisciplina");
+                });
+
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Professor", b =>
                 {
                     b.Property<string>("Id")
@@ -87,20 +107,17 @@ namespace geneticAlgorithmsApp.Migrations
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Turma", b =>
                 {
-                    b.Property<string>("LocalId")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CursoId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProfessorId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DiaDaSemana")
+                        .HasColumnType("int");
 
                     b.Property<string>("DisciplinaId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("DiaDaSemana")
-                        .HasColumnType("int");
 
                     b.Property<TimeSpan>("HorarioFim")
                         .HasColumnType("time");
@@ -108,52 +125,60 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<TimeSpan>("HorarioInicio")
                         .HasColumnType("time");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("LocalId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PeriodoLetivo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("LocalId", "CursoId", "ProfessorId", "DisciplinaId");
+                    b.Property<string>("ProfessorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CursoId");
 
                     b.HasIndex("DisciplinaId");
+
+                    b.HasIndex("LocalId");
 
                     b.HasIndex("ProfessorId");
 
                     b.ToTable("Turmas");
                 });
 
-            modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
+            modelBuilder.Entity("geneticAlgorithmsApp.src.Models.PreRequisitoDisciplina", b =>
                 {
-                    b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", null)
-                        .WithMany("PreRequisitosDisciplinas")
+                    b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", "Disciplina")
+                        .WithMany("PreRequisitoDisciplinas")
                         .HasForeignKey("DisciplinaId");
+
+                    b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", "RequisitoDisciplina")
+                        .WithMany()
+                        .HasForeignKey("RequisitoDisciplinaId");
+
+                    b.Navigation("Disciplina");
+
+                    b.Navigation("RequisitoDisciplina");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Turma", b =>
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Curso", "Curso")
                         .WithMany("Turmas")
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CursoId");
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", "Disciplina")
                         .WithMany("Turmas")
-                        .HasForeignKey("DisciplinaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DisciplinaId");
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Local", "Local")
                         .WithMany("Turmas")
-                        .HasForeignKey("LocalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LocalId");
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Professor", "Professor")
                         .WithMany("Turmas")
-                        .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProfessorId");
 
                     b.Navigation("Curso");
 
@@ -171,7 +196,7 @@ namespace geneticAlgorithmsApp.Migrations
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
                 {
-                    b.Navigation("PreRequisitosDisciplinas");
+                    b.Navigation("PreRequisitoDisciplinas");
 
                     b.Navigation("Turmas");
                 });

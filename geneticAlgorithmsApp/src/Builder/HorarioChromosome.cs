@@ -73,12 +73,5 @@ namespace geneticAlgorithmsApp.src.Builder
             Value[index] = horarioChromosome;
         }
 
-        //public class FitnessFunction : IFitnessFunction
-        //{
-        //    public double Evaluate(IChromosome chromosome)
-        //    {
-                
-        //    }
-        //}
     }
 }
