@@ -14,6 +14,5 @@ namespace geneticAlgorithmsApp.src.Models
         public string RequisitoDisciplinaId { get; set; }
         [ForeignKey("RequisitoDisciplinaId")]
         public Disciplina RequisitoDisciplina { get; set; }
-        public string AnoPPC { get; set; }
     }
 }

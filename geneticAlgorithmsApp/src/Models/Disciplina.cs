@@ -13,5 +13,6 @@ namespace geneticAlgorithmsApp.src.Models
         public int QtdCreditos { get; set; }
         public int QtdPreRequisitosCreditos { get; set; }
         public int Periodo { get; set; }
+        public int AnoPPC { get; set; }
     }
 }
