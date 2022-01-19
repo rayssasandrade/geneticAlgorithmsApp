@@ -7,9 +7,12 @@ namespace geneticAlgorithmsApp.src.Data
     {
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Disciplina> Disciplinas { get; set; }
+        public DbSet<Semestre> Semestres { get; set; }
         public DbSet<Local> Locais { get; set; }
         public DbSet<Professor> Professores { get; set; }
         public DbSet<Turma> Turmas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<MatriculaDisciplina> MatriculaDisciplinas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

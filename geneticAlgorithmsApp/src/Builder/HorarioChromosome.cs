@@ -32,6 +32,7 @@ namespace geneticAlgorithmsApp.src.Builder
         public override void Generate()
         {
             //retirar as displinas que o aluno já fez
+            //var meucontexto = _dataContext.Disciplinas.
 
             //adiciona disciplinas aleatórias em uma quantidade também aleatória por semestre
             //máximo permitido pelo IFS
@@ -45,7 +46,7 @@ namespace geneticAlgorithmsApp.src.Builder
             {
                 int qtdDisciplinasNoSemestre = Random.Next(1, 18);
                 Semestre semestre = new Semestre();
-                semestre.Nome = "" + i;
+                semestre.Descricao = "" + i;
                 for (int j = 0; j < qtdDisciplinasNoSemestre; j++)
                 {
                     var disciplinaAleatoria = _dataContext.Disciplinas.OrderBy(disciplina => Guid.NewGuid()).FirstOrDefault();
@@ -79,10 +80,12 @@ namespace geneticAlgorithmsApp.src.Builder
 
         public override void Mutate()
         {
-            //int index1 = Random.Next(0, _dataContext.Disciplinas.Count());
-            //int index2 = Random.Next(0, Horarios.Count - 1);
-            //var recomendacaoChromosome = _dataContext.Disciplinas.Find(index1);
-            //Horarios[index2] = recomendacaoChromosome;
+            //alteatoriamente selecionei um semestre, retirei uma disciplina  e inseri outra discplina
+            int index1 = Random.Next(0, _dataContext.Disciplinas.Count());
+            int semestre = Random.Next(0, Horarios.ToList().Count);
+            int index2 = Random.Next(0, _dataContext.Semestres.Find(semestre).disciplinasSemestre.Count);
+            var recomendacaoChromosome = _dataContext.Disciplinas.Find(index1);
+            Horarios[semestre].disciplinasSemestre[index2] = recomendacaoChromosome;
         }
 
     }

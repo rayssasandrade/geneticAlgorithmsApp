@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace geneticAlgorithmsApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,26 +12,12 @@ namespace geneticAlgorithmsApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MaxTempoDia = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cursos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Disciplinas",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    QtdCreditos = table.Column<int>(type: "int", nullable: false),
-                    QtdPreRequisitosCreditos = table.Column<int>(type: "int", nullable: false),
-                    Periodo = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Disciplinas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,14 +45,55 @@ namespace geneticAlgorithmsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Semestres",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Semestres", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Disciplinas",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QtdCreditos = table.Column<int>(type: "int", nullable: false),
+                    QtdPreRequisitosCreditos = table.Column<int>(type: "int", nullable: false),
+                    Periodo = table.Column<int>(type: "int", nullable: false),
+                    AnoPPC = table.Column<int>(type: "int", nullable: false),
+                    CursoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SemestreId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Disciplinas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Disciplinas_Cursos_CursoId",
+                        column: x => x.CursoId,
+                        principalTable: "Cursos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Disciplinas_Semestres_SemestreId",
+                        column: x => x.SemestreId,
+                        principalTable: "Semestres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PreRequisitoDisciplina",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    RequisitoDisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    AnoPPC = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RequisitoDisciplinaId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,6 +156,16 @@ namespace geneticAlgorithmsApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Disciplinas_CursoId",
+                table: "Disciplinas",
+                column: "CursoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Disciplinas_SemestreId",
+                table: "Disciplinas",
+                column: "SemestreId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PreRequisitoDisciplina_DisciplinaId",
                 table: "PreRequisitoDisciplina",
                 column: "DisciplinaId");
@@ -168,9 +205,6 @@ namespace geneticAlgorithmsApp.Migrations
                 name: "Turmas");
 
             migrationBuilder.DropTable(
-                name: "Cursos");
-
-            migrationBuilder.DropTable(
                 name: "Disciplinas");
 
             migrationBuilder.DropTable(
@@ -178,6 +212,12 @@ namespace geneticAlgorithmsApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Professores");
+
+            migrationBuilder.DropTable(
+                name: "Cursos");
+
+            migrationBuilder.DropTable(
+                name: "Semestres");
         }
     }
 }

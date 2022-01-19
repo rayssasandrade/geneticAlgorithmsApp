@@ -24,6 +24,9 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("MaxTempoDia")
+                        .HasColumnType("int");
+
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,6 +43,9 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<int>("AnoPPC")
                         .HasColumnType("int");
 
+                    b.Property<string>("CursoId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Nome")
                         .HasColumnType("nvarchar(max)");
 
@@ -52,7 +58,14 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<int>("QtdPreRequisitosCreditos")
                         .HasColumnType("int");
 
+                    b.Property<string>("SemestreId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CursoId");
+
+                    b.HasIndex("SemestreId");
 
                     b.ToTable("Disciplinas");
                 });
@@ -105,6 +118,19 @@ namespace geneticAlgorithmsApp.Migrations
                     b.ToTable("Professores");
                 });
 
+            modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Semestre", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Semestres");
+                });
+
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Turma", b =>
                 {
                     b.Property<string>("Id")
@@ -147,6 +173,17 @@ namespace geneticAlgorithmsApp.Migrations
                     b.ToTable("Turmas");
                 });
 
+            modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
+                {
+                    b.HasOne("geneticAlgorithmsApp.src.Models.Curso", null)
+                        .WithMany("Disciplinas")
+                        .HasForeignKey("CursoId");
+
+                    b.HasOne("geneticAlgorithmsApp.src.Models.Semestre", null)
+                        .WithMany("disciplinasSemestre")
+                        .HasForeignKey("SemestreId");
+                });
+
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.PreRequisitoDisciplina", b =>
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", "Disciplina")
@@ -165,7 +202,7 @@ namespace geneticAlgorithmsApp.Migrations
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Turma", b =>
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Curso", "Curso")
-                        .WithMany("Turmas")
+                        .WithMany()
                         .HasForeignKey("CursoId");
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Disciplina", "Disciplina")
@@ -191,7 +228,7 @@ namespace geneticAlgorithmsApp.Migrations
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Curso", b =>
                 {
-                    b.Navigation("Turmas");
+                    b.Navigation("Disciplinas");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Disciplina", b =>
@@ -209,6 +246,11 @@ namespace geneticAlgorithmsApp.Migrations
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Professor", b =>
                 {
                     b.Navigation("Turmas");
+                });
+
+            modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Semestre", b =>
+                {
+                    b.Navigation("disciplinasSemestre");
                 });
 #pragma warning restore 612, 618
         }

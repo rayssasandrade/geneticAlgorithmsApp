@@ -13,17 +13,20 @@ namespace geneticAlgorithmsApp.src.Builder
         public double Evaluate(IChromosome chromosome)
         {
             double score = 1;
-            var values = (chromosome as HorarioChromosome).Horarios;
-            foreach (var value in values)
+            var semestres = (chromosome as HorarioChromosome).Horarios;
+            foreach (var semetre in semestres)
             {
-                score += qtdDisciplinas(value);
+                var displinasSemestre = semetre.disciplinasSemestre.ToList();
+                foreach (var disciplina in displinasSemestre)
+                {
 
+                }
             }
 
             return Math.Pow(Math.Abs(score), -1);
         }
 
-        //altura
+        // buscar altura para a folha
         public int qtdDisciplinas(Disciplina disciplina){
             return disciplina.PreRequisitoDisciplinas.Count();
         }
