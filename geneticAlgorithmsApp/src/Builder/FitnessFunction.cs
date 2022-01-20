@@ -33,6 +33,7 @@ namespace geneticAlgorithmsApp.src.Builder
                     //ver se tem todas as discplinas que falta o aluno fazer
 
                     qtdCreditos = disciplina.QtdCreditos;
+                    //obs: tem que ver tb se os creditos não foi os desse semestre, que o aluno ainda não tem
                 }
             }
 
