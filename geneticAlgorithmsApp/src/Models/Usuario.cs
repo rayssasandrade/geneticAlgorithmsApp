@@ -7,6 +7,10 @@ namespace geneticAlgorithmsApp.src.Models
 {
     public class Usuario
     {
+        public Usuario()
+        {
+            this.DisciplinasRealizadas = new List<Disciplina>();
+        }
         public int Id { get; set; }
         public string CPF { get; set; }
         public string Nome { get; set; }
