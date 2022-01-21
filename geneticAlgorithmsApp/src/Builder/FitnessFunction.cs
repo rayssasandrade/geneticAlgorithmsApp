@@ -83,7 +83,8 @@ namespace geneticAlgorithmsApp.src.Builder
 
         private List<Disciplina> GetDisciplinasRealizadas()
         {
-            return null;
+            var disciplinasRealizadas = _dataContext.Usuarios.Find('1').DisciplinasRealizadas.ToList();
+            return disciplinasRealizadas;
         }
     }
 }
