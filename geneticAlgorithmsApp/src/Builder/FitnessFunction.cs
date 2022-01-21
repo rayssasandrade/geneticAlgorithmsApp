@@ -10,21 +10,19 @@ namespace geneticAlgorithmsApp.src.Builder
 {
     class FitnessFunction : IFitnessFunction
     {
-        private readonly DataContext _dataContext;
-
         public double Evaluate(IChromosome chromosome)
         {
             double score = 1;
-            var semestres = (chromosome as HorarioChromosome).Horarios;
-            int qtdCreditos = 0;
+            var chromo = chromosome as HorarioChromosome;
+            var semestres = chromo.Horarios;
+            
             foreach (var semetre in semestres)
             {
                 var displinasSemestre = semetre.disciplinasSemestre.ToList();
                 foreach (var disciplina in displinasSemestre)
                 {
-                    qtdCreditos = qtdCreditosAluno();
                     //retirar os horarios que o aluno não irá ter crédito
-                    if (disciplina.QtdPreRequisitosCreditos > qtdCreditos)
+                    if (disciplina.QtdPreRequisitosCreditos > chromo.Usuario.QtdCreditosAluno)
                     {
                         score += -1000;
                     }
@@ -32,7 +30,8 @@ namespace geneticAlgorithmsApp.src.Builder
                     //(vendo se o semestre da discplina pré requerida está menor que o semestre atual)
                     //ver se tem todas as discplinas que falta o aluno fazer
 
-                    qtdCreditos = disciplina.QtdCreditos;
+
+                    //Acho que não falta completar a lógica.... qtdCreditos = disciplina.QtdCreditos;
                     //obs: tem que ver tb se os creditos não foi os desse semestre, que o aluno ainda não tem
                 }
             }
@@ -40,16 +39,7 @@ namespace geneticAlgorithmsApp.src.Builder
             return Math.Pow(Math.Abs(score), -1);
         }
 
-        private int qtdCreditosAluno()
-        {
-            var creditos = 0;
-            var disciplinasRealizadas = _dataContext.Usuarios.Find('1').DisciplinasRealizadas.ToList();
-            foreach (var value in disciplinasRealizadas)
-            {
-                creditos += value.QtdCreditos;
-            }
-            return creditos;
-        }
+       
 
     }
 }
