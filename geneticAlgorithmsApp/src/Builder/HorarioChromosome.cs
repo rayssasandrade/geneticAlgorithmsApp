@@ -32,7 +32,7 @@ namespace geneticAlgorithmsApp.src.Builder
         public override void Generate()
         {
             //retirar as displinas que o aluno já fez
-            //var meucontexto = _dataContext.Disciplinas.
+            //var usuario = _dataContext.Usuarios.FirstOrDefault(p => p.UserName == Usuario.IdentityUser.Name);
 
             //adiciona disciplinas aleatórias em uma quantidade também aleatória por semestre
             //máximo permitido pelo IFS
