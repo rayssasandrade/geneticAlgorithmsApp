@@ -7830,24 +7830,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\frchi\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\rayss\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Trabalho\\IFS\\TCC\\Rayssa\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
+      "projectUniqueName": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
       "projectName": "geneticAlgorithmsApp",
-      "projectPath": "E:\\Trabalho\\IFS\\TCC\\Rayssa\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
-      "packagesPath": "C:\\Users\\frchi\\.nuget\\packages\\",
-      "outputPath": "E:\\Trabalho\\IFS\\TCC\\Rayssa\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\obj\\",
+      "projectPath": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
+      "packagesPath": "C:\\Users\\rayss\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\frchi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\rayss\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -7932,7 +7936,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
