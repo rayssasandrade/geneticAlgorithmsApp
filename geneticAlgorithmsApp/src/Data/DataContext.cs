@@ -18,9 +18,7 @@ namespace geneticAlgorithmsApp.src.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(
-                    "Integrated Security=SSPI; Password=123; User ID=sa; Initial Catalog=GeneticAlgorithms; Data Source=LAPTOP-02VG7CTT\\SQLEXPRESS"
-                    );
+                optionsBuilder.UseSqlServer("Password=P@ssw0rd; User ID=sa; Server=localhost; database=TCC_RAYSSA");
             }
         }
 

@@ -1,11 +1,16 @@
-using Microsoft.AspNet.Identity.EntityFramework;
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace geneticAlgorithmsApp.src.Models
 {
-    public class Usuario : IdentityUser
+    public class Usuario
     {
+        public Usuario()
+        {
+            this.DisciplinasRealizadas = new List<Disciplina>();
+        }
         public int Id { get; set; }
         public string CPF { get; set; }
         public string Nome { get; set; }
@@ -14,6 +19,14 @@ namespace geneticAlgorithmsApp.src.Models
         [ForeignKey("CursoId")]
         public Curso Curso { get; set; }
         public List<Disciplina> DisciplinasRealizadas { get; set; }
+
+        public int QtdCreditosAluno
+        {
+            get
+            {
+                return this.DisciplinasRealizadas.Sum(x => x.QtdCreditos);
+            }
+        }
 
     }
 }
