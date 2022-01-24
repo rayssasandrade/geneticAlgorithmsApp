@@ -1,6 +1,7 @@
 ﻿using geneticAlgorithmsApp.src.Models;
 using Microsoft.EntityFrameworkCore;
 
+using Microsoft.Extensions.Configuration;
 namespace geneticAlgorithmsApp.src.Data
 {
     class DataContext : DbContext
@@ -18,7 +19,7 @@ namespace geneticAlgorithmsApp.src.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Integrated Security=SSPI; Password=123; User ID=sa; Initial Catalog=GeneticAlgorithms; Data Source=LAPTOP-02VG7CTT\\SQLEXPRESS");
+                optionsBuilder.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["BancoDados"].ConnectionString);
             }
         }
 
