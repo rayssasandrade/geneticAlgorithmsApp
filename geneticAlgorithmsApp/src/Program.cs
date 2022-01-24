@@ -31,7 +31,7 @@ namespace geneticAlgorithmsApp
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
 
 
-                Population population = new Population(10000, new HorarioChromosome(dataContext, usuario),
+                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario),
                     new FitnessFunction(dataContext), new EliteSelection());
                 
                 int i = 0;
@@ -44,7 +44,8 @@ namespace geneticAlgorithmsApp
                     best = Math.Max(best, population.FitnessSum);
                     ImprimirEstatistica(population);
 
-                    if (population.FitnessMax >= 0.50 || i >= 2000)
+
+                    if (i >= 2000) //population.FitnessMax >= 0.50 || 
                     {
 
                         Console.WriteLine("OBAAAAAAA");

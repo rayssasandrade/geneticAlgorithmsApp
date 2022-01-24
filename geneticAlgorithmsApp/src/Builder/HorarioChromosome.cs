@@ -121,7 +121,8 @@ namespace geneticAlgorithmsApp.src.Builder
             //var disciplinasQueFaltam = _dataContext.Disciplinas.AsNoTracking().ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer());
             //alteatoriamente selecionei um semestre, retirei uma disciplina  e inseri outra discplina
             int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count() - 1);
-            while (idxRecomendacao-- > 0)
+            int i = 0;
+            while ( i++ < 3)
             {
                 int semestreA = Random.Next(Horarios.ToList().Count - 1);
                 int semestreB = Random.Next(Horarios.ToList().Count - 1);
