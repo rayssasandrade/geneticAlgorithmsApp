@@ -19,6 +19,10 @@ namespace geneticAlgorithmsApp.src.Models
         public int QtdPreRequisitosCreditos { get; set; }
         public int Periodo { get; set; }
         public int AnoPPC { get; set; }
+        public override string ToString()
+        {
+            return $"{Id} - {Nome}";
+        }
     }
     public class DisciplinaEqualityComparer : IEqualityComparer<Disciplina>
     {
@@ -32,4 +36,5 @@ namespace geneticAlgorithmsApp.src.Models
             return obj.Id.GetHashCode();
         }
     }
+    
 }

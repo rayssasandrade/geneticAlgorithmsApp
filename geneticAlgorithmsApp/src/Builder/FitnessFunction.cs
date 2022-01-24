@@ -49,10 +49,10 @@ namespace geneticAlgorithmsApp.src.Builder
                 foreach (var disciplina in displinasSemestre)
                 {
                     //retirar os horarios que o aluno não irá ter crédito
-                    if (disciplina.QtdPreRequisitosCreditos > qtdCreditos)
+                    if (qtdCreditos < disciplina.QtdPreRequisitosCreditos )
                     {
                         score = 0;//disciplina.QtdPreRequisitosCreditos - qtdCreditos;
-                    return score;
+                        return score;
                     }
 
                     if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
@@ -81,7 +81,7 @@ namespace geneticAlgorithmsApp.src.Builder
                 //Incluo na variável temporária as disciplinas da foto com aquelas que ele já fez.
                 disciplinasRealizadas.AddRange(semetre.disciplinasSemestre);
 
-              //  score += 0.3 * (displinasSemestre.Count-1);
+                score -= 0.3 * (displinasSemestre.Count-1);
 
 
             }
@@ -108,7 +108,7 @@ namespace geneticAlgorithmsApp.src.Builder
             int cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas)
             {
-                if (disciplinasRealizadas.Contains(value.Disciplina))
+                if (disciplinasRealizadas.Contains(value.RequisitoDisciplina))
                 {
                     cont += 1;
                 }

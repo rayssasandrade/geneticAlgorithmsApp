@@ -120,12 +120,22 @@ namespace geneticAlgorithmsApp.src.Builder
             var disciplinasQueFaltam = Usuario.DisciplinasPendentes;
             //var disciplinasQueFaltam = _dataContext.Disciplinas.AsNoTracking().ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer());
             //alteatoriamente selecionei um semestre, retirei uma disciplina  e inseri outra discplina
-            int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count()-1);
-            int semestre = Random.Next(Horarios.ToList().Count-1);
-            int index2 = Random.Next(Horarios[semestre].disciplinasSemestre.Count-1);
+            int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count() - 1);
+            while (idxRecomendacao-- > 0)
+            {
+                int semestreA = Random.Next(Horarios.ToList().Count - 1);
+                int semestreB = Random.Next(Horarios.ToList().Count - 1);
 
-            var recomendacaoChromosome = disciplinasQueFaltam.Skip(idxRecomendacao).First();
-            Horarios[semestre].disciplinasSemestre[index2] = recomendacaoChromosome;
+                int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
+                int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
+
+                var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
+                var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
+                Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
+                Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
+                
+            }
+
         }
 
     }
