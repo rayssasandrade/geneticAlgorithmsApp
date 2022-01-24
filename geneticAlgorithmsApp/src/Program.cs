@@ -27,7 +27,7 @@ namespace geneticAlgorithmsApp
                     population.RunEpoch(); 
                     i++;
                     ImprimirEstatistica(population);
-                    if (population.FitnessMax >= 0.99 || i >= 1000)
+                    if (population.FitnessMax >= 0 || i >= 1000)
                     {
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();

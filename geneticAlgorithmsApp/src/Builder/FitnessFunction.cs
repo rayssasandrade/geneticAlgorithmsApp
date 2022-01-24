@@ -40,12 +40,12 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar os horarios que o aluno não irá ter crédito
                     if (disciplina.QtdPreRequisitosCreditos > qtdCreditos)
                     {
-                        score -= disciplina.QtdPreRequisitosCreditos - qtdCreditos;
+                        score -= score -= 0.8 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
                     }
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if ( FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= disciplina.PreRequisitoDisciplinas.Count();
+                        score -= score -= 0.1 * disciplina.PreRequisitoDisciplinas.Count();
                     }
                     //(vendo se o semestre da discplina pré requerida está menor que o semestre atual)
                     //ver se tem todas as discplinas que falta o aluno fazer
@@ -61,13 +61,15 @@ namespace geneticAlgorithmsApp.src.Builder
             }
             score -= 0.1 * semestres.Count;
 
+            //TO DO: penalizar os que não utilizam todas as discplinas
+            //TO DO: penalizar os que utilizam discplinas repetidas
+
             return Math.Pow(Math.Abs(score), -1);
         }
 
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
         {
-            List<Disciplina> preRequisitos = (List<Disciplina>)disciplina.PreRequisitoDisciplinas.ToList().Where(c => c.DisciplinaId.Equals(disciplina.Id));
-            if (disciplina.PreRequisitoDisciplinas.ToList() == null || disciplina.PreRequisitoDisciplinas.ToList().Count() == 0) return true;
+            if (disciplina.PreRequisitoDisciplinas == null || disciplina.PreRequisitoDisciplinas.ToList().Count() == 0) return true;
 
             int cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas.ToList())

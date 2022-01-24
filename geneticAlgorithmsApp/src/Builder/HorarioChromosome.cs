@@ -58,8 +58,8 @@ namespace geneticAlgorithmsApp.src.Builder
             //ele teria 15 * 5 dias. Sabendo que em média temos 4 créditos por disciplina,
             //o aluno pode pegar, no max , 15 * 5 / 4 disciplinas por semestre
 
-            var disciplinasQueFaltam = _dataContext.Disciplinas.ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer()).OrderBy(disciplina => Guid.NewGuid()).ToList();
-            
+            var disciplinasQueFaltam = _dataContext.Disciplinas.Include(d => d.PreRequisitoDisciplinas).ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer()).OrderBy(disciplina => Guid.NewGuid()).ToList();
+
             // Se a linha que pega as disciplinas que faltam não funcionar, tente assim:
             // var disciplinas = _dataContext.Disciplinas.OrderBy(disciplina => Guid.NewGuid()).AsNoTracking().ToList();
             // e depois faça a remoção das disciplinas que ele já fez.
@@ -101,7 +101,7 @@ namespace geneticAlgorithmsApp.src.Builder
         public override void Crossover(IChromosome pair)
         {
             var otherChromsome = pair as HorarioChromosome;
-            int qtdMin = Math.Min(Horarios.Count, otherChromsome.Horarios.Count);  //TODO: Ajustar o fator;
+            int qtdMin = Math.Min(Horarios.Count, otherChromsome.Horarios.Count);
             var randomVal = Random.Next(qtdMin);
             for (int index = randomVal; index < qtdMin; index++)
             {
@@ -111,7 +111,7 @@ namespace geneticAlgorithmsApp.src.Builder
 
         public override void Mutate()
         {
-            var disciplinasQueFaltam = _dataContext.Disciplinas.ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer()).OrderBy(disciplina => Guid.NewGuid()).ToList();
+            var disciplinasQueFaltam = _dataContext.Disciplinas.Include(d => d.PreRequisitoDisciplinas).ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer()).OrderBy(disciplina => Guid.NewGuid()).ToList();
             //alteatoriamente selecionei um semestre, retirei uma disciplina  e inseri outra discplina
             int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count()-1);
             int semestre = Random.Next(Horarios.ToList().Count-1);
