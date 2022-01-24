@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Accord.Genetic;
@@ -32,24 +33,46 @@ namespace geneticAlgorithmsApp.src.Builder
             
             foreach (var semetre in semestres)
             {
-                displinasSemestre = semetre.disciplinasSemestre.ToList();
+                displinasSemestre = semetre.disciplinasSemestre;
                 int qtdCreditosSemestre = 0;
-               
+
+                var ds = displinasSemestre
+                    .GroupBy(d => d.Nome)
+                    .Where(ds => ds.Count() > 1)
+                    .Select(d => new { Id = d.Key, Qtd = d.Count() });
+                if (ds.Count() > 0)
+                {
+                    score = 0;
+                    return score;
+                }
+
                 foreach (var disciplina in displinasSemestre)
                 {
                     //retirar os horarios que o aluno não irá ter crédito
-                    if (disciplina.QtdPreRequisitosCreditos > qtdCreditos)
+                    if (qtdCreditos < disciplina.QtdPreRequisitosCreditos )
                     {
-                        score -= score -= 0.8 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
+                        score = 0;//disciplina.QtdPreRequisitosCreditos - qtdCreditos;
+                        return score;
                     }
+
+                    if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
+                    {
+                        score = 0;
+                    return score;
+                    }
+
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
-                    if ( FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
+                    if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= score -= 0.1 * disciplina.PreRequisitoDisciplinas.Count();
+                        score = 0;// disciplina.PreRequisitoDisciplinas.Count();
+                    return score;
                     }
+
+
+
                     //(vendo se o semestre da discplina pré requerida está menor que o semestre atual)
                     //ver se tem todas as discplinas que falta o aluno fazer
-                   
+
                     //obs: tem que ver tb se os creditos não foi os desse semestre, que o aluno ainda não tem
                     qtdCreditosSemestre += disciplina.QtdCreditos;
                 }
@@ -58,23 +81,34 @@ namespace geneticAlgorithmsApp.src.Builder
                 //Incluo na variável temporária as disciplinas da foto com aquelas que ele já fez.
                 disciplinasRealizadas.AddRange(semetre.disciplinasSemestre);
 
+                score -= 0.3 * (displinasSemestre.Count-1);
+
+
             }
-            score -= 0.1 * semestres.Count;
-
-            //TO DO: penalizar os que não utilizam todas as discplinas
-            //TO DO: penalizar os que utilizam discplinas repetidas
-
-            return Math.Pow(Math.Abs(score), -1);
+            score -= 0.1 * (semestres.Count-1);
+            if (chromo.Usuario.QtdCreditosAluno + chromo.Usuario.QtdCreditosPendentes == qtdCreditos)
+            {
+                var pow = Math.Pow(Math.Abs(score), -1);
+                return pow;
+            }
+            var pow1 = 0;// Math.Pow(Math.Abs(score), -1);
+                return pow1;
         }
-
+        private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos =  new Dictionary<string, List<PreRequisitoDisciplina>>();
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
         {
-            if (disciplina.PreRequisitoDisciplinas == null || disciplina.PreRequisitoDisciplinas.ToList().Count() == 0) return true;
+            if ( ! _preRequisitos.ContainsKey(disciplina.Id))
+            {
+                _preRequisitos[disciplina.Id] = disciplina.PreRequisitoDisciplinas.Where(c => c.DisciplinaId.Equals(disciplina.Id)).ToList();
+            }
+            var preRequisitos = _preRequisitos[disciplina.Id];
+            if (preRequisitos == null || preRequisitos.Count() == 0) return true;
+
 
             int cont = 0;
-            foreach (var value in disciplina.PreRequisitoDisciplinas.ToList())
+            foreach (var value in disciplina.PreRequisitoDisciplinas)
             {
-                if (disciplinasRealizadas.Contains(_dataContext.Disciplinas.Find(value.DisciplinaId)))
+                if (disciplinasRealizadas.Contains(value.RequisitoDisciplina))
                 {
                     cont += 1;
                 }

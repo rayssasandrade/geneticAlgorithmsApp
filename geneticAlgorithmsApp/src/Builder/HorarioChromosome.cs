@@ -20,10 +20,9 @@ namespace geneticAlgorithmsApp.src.Builder
         /// o aluno pode pegar, no max 18 disciplnas por semestre, visto que, 15 * 5 / 4 = 18.75 
         /// </remarks>
         public int MaxQtdDisciplinasDoSemestre { get; set; }
-        private readonly Usuario _usuario;
-        public Usuario Usuario
-        {
-            get { return _usuario; }
+        public Usuario Usuario {
+            get;
+            private set;
         }
         private readonly DataContext _dataContext;
         static Random Random = new Random();
@@ -34,15 +33,18 @@ namespace geneticAlgorithmsApp.src.Builder
         public HorarioChromosome(DataContext dataContext, Usuario usuario, int maxQtdDisciplinasDoSemestre = 18)
         {
             _dataContext = dataContext;
-            this._usuario = usuario;
+            Usuario = usuario;
             this.MaxQtdDisciplinasDoSemestre = maxQtdDisciplinasDoSemestre;
             Generate();
         }
-
+        public HorarioChromosome()
+        {
+            throw new Exception();
+        }
         public HorarioChromosome(DataContext dataContext, Usuario usuario, List<Semestre> partesRecomendacao )
         {
             _dataContext = dataContext;
-            this._usuario = usuario;
+            Usuario = usuario;
             Horarios = partesRecomendacao.ToList();
         }
 
@@ -58,8 +60,7 @@ namespace geneticAlgorithmsApp.src.Builder
             //ele teria 15 * 5 dias. Sabendo que em média temos 4 créditos por disciplina,
             //o aluno pode pegar, no max , 15 * 5 / 4 disciplinas por semestre
 
-            var disciplinasQueFaltam = _dataContext.Disciplinas.Include(d => d.PreRequisitoDisciplinas).ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer()).OrderBy(disciplina => Guid.NewGuid()).ToList();
-
+            var disciplinasQueFaltam = Usuario.DisciplinasPendentes.ToList();
             // Se a linha que pega as disciplinas que faltam não funcionar, tente assim:
             // var disciplinas = _dataContext.Disciplinas.OrderBy(disciplina => Guid.NewGuid()).AsNoTracking().ToList();
             // e depois faça a remoção das disciplinas que ele já fez.
@@ -67,19 +68,24 @@ namespace geneticAlgorithmsApp.src.Builder
             int qtdDisciplinasQueFaltam = disciplinasQueFaltam.Count();
             //int qtdSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre) );
             int qtdSemestre = Random.Next(1, qtdDisciplinasQueFaltam);
-            for (int i = 1; i <= qtdSemestre; i++)
+            int i = 1;
+            while (qtdDisciplinasQueFaltam > 0)
             {
                 int qtdDisciplinasNoSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre));
                 Semestre semestre = new Semestre();
-                semestre.Descricao = i.ToString();
+                Horarios.Add(semestre);
+                semestre.Descricao = i++.ToString();
                 for (int j = 0; j < qtdDisciplinasNoSemestre; j++)
                 {
-                    var idxDisciplina = Random.Next(1, qtdDisciplinasQueFaltam);
+
+                    var idxDisciplina = Random.Next(0, qtdDisciplinasQueFaltam);
                     var disciplinaAleatoria = disciplinasQueFaltam[idxDisciplina];
+                    disciplinasQueFaltam.RemoveAt(idxDisciplina);
+                    qtdDisciplinasQueFaltam--;
                     semestre.disciplinasSemestre.Add(disciplinaAleatoria);
                 }
-                Horarios.Add(semestre);
             }
+            
         }
 
         public override IChromosome Clone()
@@ -111,14 +117,26 @@ namespace geneticAlgorithmsApp.src.Builder
 
         public override void Mutate()
         {
-            var disciplinasQueFaltam = _dataContext.Disciplinas.Include(d => d.PreRequisitoDisciplinas).ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer()).OrderBy(disciplina => Guid.NewGuid()).ToList();
+            var disciplinasQueFaltam = Usuario.DisciplinasPendentes;
+            //var disciplinasQueFaltam = _dataContext.Disciplinas.AsNoTracking().ToList().Except(Usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer());
             //alteatoriamente selecionei um semestre, retirei uma disciplina  e inseri outra discplina
-            int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count()-1);
-            int semestre = Random.Next(Horarios.ToList().Count-1);
-            int index2 = Random.Next(Horarios[semestre].disciplinasSemestre.Count-1);
+            int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count() - 1);
+            int i = 0;
+            while ( i++ < 3)
+            {
+                int semestreA = Random.Next(Horarios.ToList().Count - 1);
+                int semestreB = Random.Next(Horarios.ToList().Count - 1);
 
-            var recomendacaoChromosome = disciplinasQueFaltam[idxRecomendacao];
-            Horarios[semestre].disciplinasSemestre[index2] = recomendacaoChromosome;
+                int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
+                int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
+
+                var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
+                var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
+                Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
+                Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
+                
+            }
+
         }
 
     }
