@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj": {}
+    "c:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj": {
+    "c:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
+        "projectUniqueName": "c:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
         "projectName": "geneticAlgorithmsApp",
-        "projectPath": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
+        "projectPath": "c:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
         "packagesPath": "C:\\Users\\rayss\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\obj\\",
+        "outputPath": "c:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -86,7 +86,15 @@
               "target": "Package",
               "version": "[5.0.0, )"
             },
+            "Microsoft.Extensions.Configuration.UserSecrets": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "Microsoft.Extensions.Options.ConfigurationExtensions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[5.0.0, )"
             }
