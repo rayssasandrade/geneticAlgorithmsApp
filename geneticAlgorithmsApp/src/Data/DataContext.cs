@@ -19,7 +19,7 @@ namespace geneticAlgorithmsApp.src.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(System.Configuration.ConfigurationManager.ConnectionStrings["BancoDados"].ConnectionString);
+                optionsBuilder.UseSqlServer("Password=P@ssw0rd; User ID=sa; Initial Catalog=TCC_RAYSSA; Data Source=localhost");
             }
         }
 
