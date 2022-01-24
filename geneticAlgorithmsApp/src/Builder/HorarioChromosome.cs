@@ -66,7 +66,7 @@ namespace geneticAlgorithmsApp.src.Builder
 
             int qtdDisciplinasQueFaltam = disciplinasQueFaltam.Count();
             //int qtdSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre) );
-            int qtdSemestre = Random.Next(0, qtdDisciplinasQueFaltam);
+            int qtdSemestre = Random.Next(1, qtdDisciplinasQueFaltam);
             for (int i = 1; i <= qtdSemestre; i++)
             {
                 int qtdDisciplinasNoSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre));
@@ -74,7 +74,7 @@ namespace geneticAlgorithmsApp.src.Builder
                 semestre.Descricao = i.ToString();
                 for (int j = 0; j < qtdDisciplinasNoSemestre; j++)
                 {
-                    var idxDisciplina = Random.Next(qtdDisciplinasQueFaltam);
+                    var idxDisciplina = Random.Next(1, qtdDisciplinasQueFaltam);
                     var disciplinaAleatoria = disciplinasQueFaltam[idxDisciplina];
                     semestre.disciplinasSemestre.Add(disciplinaAleatoria);
                 }

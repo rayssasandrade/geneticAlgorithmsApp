@@ -17,7 +17,7 @@ namespace geneticAlgorithmsApp.src.Builder
         }
         public double Evaluate(IChromosome chromosome)
         {
-            double score = .99;
+            double score = 1;
             var chromo = chromosome as HorarioChromosome;
             var semestres = chromo.Horarios;
 
@@ -40,12 +40,12 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar os horarios que o aluno não irá ter crédito
                     if (disciplina.QtdPreRequisitosCreditos > qtdCreditos)
                     {
-                        score -= 0.8 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
+                        score -= disciplina.QtdPreRequisitosCreditos - qtdCreditos;
                     }
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if ( FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= 0.1 * disciplina.PreRequisitoDisciplinas.Count();
+                        score -= disciplina.PreRequisitoDisciplinas.Count();
                     }
                     //(vendo se o semestre da discplina pré requerida está menor que o semestre atual)
                     //ver se tem todas as discplinas que falta o aluno fazer
@@ -66,7 +66,8 @@ namespace geneticAlgorithmsApp.src.Builder
 
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
         {
-            if (disciplina.PreRequisitoDisciplinas == null || disciplina.PreRequisitoDisciplinas.Count() == 0) return true;
+            List<Disciplina> preRequisitos = (List<Disciplina>)disciplina.PreRequisitoDisciplinas.ToList().Where(c => c.DisciplinaId.Equals(disciplina.Id));
+            if (disciplina.PreRequisitoDisciplinas.ToList() == null || disciplina.PreRequisitoDisciplinas.ToList().Count() == 0) return true;
 
             int cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas.ToList())
@@ -85,12 +86,6 @@ namespace geneticAlgorithmsApp.src.Builder
                 return true;
             }
             return false;
-        }
-
-        private List<Disciplina> GetDisciplinasRealizadas()
-        {
-            var disciplinasRealizadas = _dataContext.Usuarios.Find('1').DisciplinasRealizadas.ToList();
-            return disciplinasRealizadas;
         }
     }
 }
