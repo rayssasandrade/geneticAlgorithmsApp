@@ -10,8 +10,8 @@ using geneticAlgorithmsApp.src.Data;
 namespace geneticAlgorithmsApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220122002520_incrementando")]
-    partial class incrementando
+    [Migration("20220126010028_initProjeto")]
+    partial class initProjeto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -66,6 +66,9 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Property<int?>("UsuarioId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsuarioId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CursoId");
@@ -73,6 +76,8 @@ namespace geneticAlgorithmsApp.Migrations
                     b.HasIndex("SemestreId");
 
                     b.HasIndex("UsuarioId");
+
+                    b.HasIndex("UsuarioId1");
 
                     b.ToTable("Disciplinas");
                 });
@@ -245,14 +250,18 @@ namespace geneticAlgorithmsApp.Migrations
                         .HasForeignKey("SemestreId");
 
                     b.HasOne("geneticAlgorithmsApp.src.Models.Usuario", null)
-                        .WithMany("DisciplinasRealizadas")
+                        .WithMany("DisciplinasPendentes")
                         .HasForeignKey("UsuarioId");
+
+                    b.HasOne("geneticAlgorithmsApp.src.Models.Usuario", null)
+                        .WithMany("DisciplinasRealizadas")
+                        .HasForeignKey("UsuarioId1");
                 });
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.MatriculaDisciplina", b =>
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Usuario", "Aluno")
-                        .WithMany()
+                        .WithMany("MatriculaDisciplina")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -346,7 +355,11 @@ namespace geneticAlgorithmsApp.Migrations
 
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.Usuario", b =>
                 {
+                    b.Navigation("DisciplinasPendentes");
+
                     b.Navigation("DisciplinasRealizadas");
+
+                    b.Navigation("MatriculaDisciplina");
                 });
 #pragma warning restore 612, 618
         }

@@ -259,7 +259,7 @@ namespace geneticAlgorithmsApp.Migrations
             modelBuilder.Entity("geneticAlgorithmsApp.src.Models.MatriculaDisciplina", b =>
                 {
                     b.HasOne("geneticAlgorithmsApp.src.Models.Usuario", "Aluno")
-                        .WithMany()
+                        .WithMany("MatriculaDisciplina")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -356,6 +356,8 @@ namespace geneticAlgorithmsApp.Migrations
                     b.Navigation("DisciplinasPendentes");
 
                     b.Navigation("DisciplinasRealizadas");
+
+                    b.Navigation("MatriculaDisciplina");
                 });
 #pragma warning restore 612, 618
         }
