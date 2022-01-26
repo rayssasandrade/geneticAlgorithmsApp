@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2wkFb6QxNids/illhO3TRKkQTrXwzUyeQ3iQxqeYWBvtcs2U1o+4LeVzp/o3r4dAErpzGdA8F9tMkpKpgZ6BBw==",
+  "dgSpecHash": "5TlZcegHYjRd05U+4WjsplwMXpPHG0JXHY0ZmK0eeYr5Cw30DvFkVzZenGjh0pZUnXwnjHu3fvaIb3/bO3V8QQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
+  "projectFilePath": "C:\\Users\\rayss\\OneDrive\\Documentos\\git\\geneticAlgorithmsApp\\geneticAlgorithmsApp\\geneticAlgorithmsApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rayss\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
     "C:\\Users\\rayss\\.nuget\\packages\\accord.genetic\\3.8.0\\accord.genetic.3.8.0.nupkg.sha512",

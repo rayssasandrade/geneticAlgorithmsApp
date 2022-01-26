@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace geneticAlgorithmsApp.Migrations
 {
-    public partial class init : Migration
+    public partial class initProjeto : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,6 +57,28 @@ namespace geneticAlgorithmsApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CPF = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Matricula = table.Column<int>(type: "int", nullable: false),
+                    CursoId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Cursos_CursoId",
+                        column: x => x.CursoId,
+                        principalTable: "Cursos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Disciplinas",
                 columns: table => new
                 {
@@ -67,7 +89,9 @@ namespace geneticAlgorithmsApp.Migrations
                     Periodo = table.Column<int>(type: "int", nullable: false),
                     AnoPPC = table.Column<int>(type: "int", nullable: false),
                     CursoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SemestreId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SemestreId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UsuarioId = table.Column<int>(type: "int", nullable: true),
+                    UsuarioId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,6 +108,46 @@ namespace geneticAlgorithmsApp.Migrations
                         principalTable: "Semestres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Disciplinas_Usuarios_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Disciplinas_Usuarios_UsuarioId1",
+                        column: x => x.UsuarioId1,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MatriculaDisciplinas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    DisciplinaId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DisciplinaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MatriculaDisciplinas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MatriculaDisciplinas_Disciplinas_DisciplinaId1",
+                        column: x => x.DisciplinaId1,
+                        principalTable: "Disciplinas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MatriculaDisciplinas_Usuarios_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,6 +230,26 @@ namespace geneticAlgorithmsApp.Migrations
                 column: "SemestreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Disciplinas_UsuarioId",
+                table: "Disciplinas",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Disciplinas_UsuarioId1",
+                table: "Disciplinas",
+                column: "UsuarioId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MatriculaDisciplinas_AlunoId",
+                table: "MatriculaDisciplinas",
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MatriculaDisciplinas_DisciplinaId1",
+                table: "MatriculaDisciplinas",
+                column: "DisciplinaId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PreRequisitoDisciplina_DisciplinaId",
                 table: "PreRequisitoDisciplina",
                 column: "DisciplinaId");
@@ -194,10 +278,18 @@ namespace geneticAlgorithmsApp.Migrations
                 name: "IX_Turmas_ProfessorId",
                 table: "Turmas",
                 column: "ProfessorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_CursoId",
+                table: "Usuarios",
+                column: "CursoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "MatriculaDisciplinas");
+
             migrationBuilder.DropTable(
                 name: "PreRequisitoDisciplina");
 
@@ -214,10 +306,13 @@ namespace geneticAlgorithmsApp.Migrations
                 name: "Professores");
 
             migrationBuilder.DropTable(
-                name: "Cursos");
+                name: "Semestres");
 
             migrationBuilder.DropTable(
-                name: "Semestres");
+                name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Cursos");
         }
     }
 }
