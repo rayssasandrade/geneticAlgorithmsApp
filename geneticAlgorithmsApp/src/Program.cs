@@ -45,7 +45,7 @@ namespace geneticAlgorithmsApp
                     ImprimirEstatistica(population);
 
 
-                    if (population.FitnessMax >= 1 || i >= 2000) //population.FitnessMax >= 0.50 || 
+                    if (i >= 2000) //population.FitnessMax >= 0.50 || 
                     {
 
                         Console.WriteLine("OBAAAAAAA");
