@@ -44,7 +44,7 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar os horarios que o aluno não irá ter crédito
                     if (qtdCreditos < disciplina.QtdPreRequisitosCreditos)
                     {
-                        score -= disciplina.QtdPreRequisitosCreditos - qtdCreditos;
+                        score -= 3 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
                     }
 
                     //if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
@@ -55,7 +55,7 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= disciplina.PreRequisitoDisciplinas.Count();
+                        score -= 3 * (disciplina.PreRequisitoDisciplinas.Count());
                     }
                                         
                     qtdCreditosSemestre += disciplina.QtdCreditos;
@@ -75,6 +75,8 @@ namespace geneticAlgorithmsApp.src.Builder
             }
 
             score -= 0.1 * (semestres.Count - 1);
+
+            //TO DO: decrementar score das discplinas que tem muito crédito
             
             return score;
 
