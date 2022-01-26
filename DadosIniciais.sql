@@ -5,8 +5,8 @@ select @@TRANCOUNT
 begin tran
 select * from dbo.Cursos
 
-INSERT INTO Cursos(id, titulo, MaxTempoDia) VALUES ('1', 'Sistemas de InformaÁ„o', 18)
-INSERT INTO Cursos(id, titulo, MaxTempoDia) VALUES ('2', 'Engenharia ElÈtrica', 10)
+INSERT INTO Cursos(id, titulo, MaxTempoDia) VALUES ('1', 'Sistemas de Informa√ß√£o', 18)
+INSERT INTO Cursos(id, titulo, MaxTempoDia) VALUES ('2', 'Engenharia El√©trica', 10)
 
 select * from dbo.Professores
 
@@ -21,7 +21,7 @@ INSERT INTO Professores(id, Nome) VALUES ('8', 'CRIS')
 INSERT INTO Professores(id, Nome) VALUES ('9', 'LAURO')
 INSERT INTO Professores(id, Nome) VALUES ('10', 'TEO')
 INSERT INTO Professores(id, Nome) VALUES ('11', 'JONATAS')
-INSERT INTO Professores(id, Nome) VALUES ('12', 'M¡RIO')
+INSERT INTO Professores(id, Nome) VALUES ('12', 'M√ÅRIO')
 
 select * from dbo.Locais
 
@@ -43,56 +43,57 @@ Select * from Usuarios
 
 SET IDENTITY_INSERT Usuarios ON
 insert into Usuarios (id, CPF, CursoId, Matricula, Nome) values ('88', '00000000000', 1, '123456', 'Demo' )
+insert into Usuarios (id, CPF, CursoId, Matricula, Nome) values ('99', '99999999999', 1, '654321', 'Demo2' )
 SET IDENTITY_INSERT Usuarios OFF
 
 select * from dbo.Disciplinas
 
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('1', 'Matem·tica Discreta', 4, 0, 1, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('2', 'LÛgica Matem·tica', 4, 0, 1, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('3', 'IntroduÁ„o ‡ AdministraÁ„o', 4, 0, 1, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('4', 'IntroduÁ„o ‡ ComputaÁ„o', 10, 4, 1, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('5', 'Fundamentos de ProgramaÁ„o', 8, 0, 1, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('6', 'PortuguÍs Instrumental', 3, 0, 1, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('7', 'C·lculo I', 6, 0, 2, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('8', 'Fundamentos de Sistema de InformaÁ„o', 4, 0, 2, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('9', 'Arquitetura e OrganizaÁ„o de Computadores', 4, 0, 2, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('1', 'Matem√°tica Discreta', 4, 0, 1, 2015, 1, 99, '99')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('2', 'L√≥gica Matem√°tica', 4, 0, 1, 2015, 1, 99, '99')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('3', 'Introdu√ß√£o √† Administra√ß√£o', 4, 0, 1, 2015, 1, 99, '99')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('4', 'Introdu√ß√£o √† Computa√ß√£o', 10, 4, 1, 2015, 1, 99, '99')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('5', 'Fundamentos de Programa√ß√£o', 8, 0, 1, 2015, 1, 99, '99')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('6', 'Portugu√™s Instrumental', 3, 0, 1, 2015, 1, 99, '99')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('7', 'C√°lculo I', 6, 0, 2, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('8', 'Fundamentos de Sistema de Informa√ß√£o', 4, 0, 2, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('9', 'Arquitetura e Organiza√ß√£o de Computadores', 4, 0, 2, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('10', 'Paradigma Orientado a Objetos', 6, 0, 2, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('11', 'EducaÁ„o e Diversidade', 3, 0, 2, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('12', 'InglÍs Instrumental', 2, 0, 2, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('13', 'Inform·tica …tica e Sociedade', 2, 0, 2, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('14', 'Metodologia CientÌfica', 3, 0, 3, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('11', 'Educa√ß√£o e Diversidade', 3, 0, 2, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('12', 'Ingl√™s Instrumental', 2, 0, 2, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('13', 'Inform√°tica √âtica e Sociedade', 2, 0, 2, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('14', 'Metodologia Cient√≠fica', 3, 0, 3, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('15', 'Modelagem de Dados', 4, 25, 3, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('16', 'Sistemas Operacionais', 4, 0, 3, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('17', 'An·lise Orientada a Objetos', 4, 0, 3, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('17', 'An√°lise Orientada a Objetos', 4, 0, 3, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('18', 'Algoritmos e Estrutura de Dados I', 6, 0, 3, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('19', 'Engenharia de Software', 4, 25, 3, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('20', 'Probabilidade e EstatÌstica', 4, 0, 4, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('20', 'Probabilidade e Estat√≠stica', 4, 0, 4, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('21', 'Projeto de Banco de Dados', 4, 0, 4, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('22', 'Redes de Computadores', 4, 0, 4, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('23', 'Padrıes de Projeto e Arquitetura de Software', 4, 0, 4, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo1, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('22', 'Redes de Computadores', 4, 0, 4, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('23', 'Padr√µes de Projeto e Arquitetura de Software', 4, 0, 4, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('24', 'Algoritmos e Estrutura de Dados II', 4, 0, 4, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('25', 'Qualidade de Software', 4, 0, 4, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('26', 'Projeto Integrador I', 2, 0, 5, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('27', 'Adm de Banco de Dados', 4, 0, 5, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('28', 'Lab de Redes de Computadores', 4, 0, 5, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('29', 'ProgramaÁ„o Web I', 4, 0, 5, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('30', 'GerÍncia de Projetos', 4, 0, 5, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('29', 'Programa√ß√£o Web I', 4, 0, 5, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('30', 'Ger√™ncia de Projetos', 4, 0, 5, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('31', 'Teste de Software', 2, 0, 5, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('32', 'Modelagem de processo de NegÛcio', 2, 90, 6, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('33', 'Sistema de Apoio a Decis„o', 4, 0, 6, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('34', 'Sistemas DistribuÌdos', 2, 0, 6, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('35', 'ProgramaÁ„o Web II', 6, 0, 6, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('36', 'GovernanÁa de TI', 4, 0, 6, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('37', 'IndtroduÁ„o Humano Computador', 2, 0, 6, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('38', 'Projeto e An·lise de Algoritmos', 2, 0, 7, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('32', 'Modelagem de processo de Neg√≥cio', 2, 90, 6, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('33', 'Sistema de Apoio a Decis√£o', 4, 0, 6, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('34', 'Sistemas Distribu√≠dos', 2, 0, 6, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('35', 'Programa√ß√£o Web II', 6, 0, 6, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('36', 'Governan√ßa de TI', 4, 0, 6, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('37', 'Indtrodu√ß√£o Humano Computador', 2, 0, 6, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('38', 'Projeto e An√°lise de Algoritmos', 2, 0, 7, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('39', 'TCC I', 1, 127, 7, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('40', 'SeguranÁa e Auditoria', 1, 0, 7, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('40', 'Seguran√ßa e Auditoria', 1, 0, 7, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('41', 'Projeto Integrador II', 4, 0, 7, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('42', 'OrientaÁ„o a Est·gio', 2, 70, 7, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('43', 'ProgramaÁ„o Para Dispositivos MÛveis', 4, 0, 7, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('42', 'Orienta√ß√£o a Est√°gio', 2, 70, 7, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('43', 'Programa√ß√£o Para Dispositivos M√≥veis', 4, 0, 7, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('44', 'Empreendedorismo', 4, 0, 8, 2015, 1, 99, '88')
 INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('45', 'TCC II', 1, 0, 8, 2015, 1, 99, '88')
-INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('46', 'ComputaÁ„o Inteligente', 4, 0, 8, 2015, 1, 99, '88')
+INSERT INTO Disciplinas(id, Nome, QtdCreditos, QtdPreRequisitosCreditos, Periodo, AnoPPC, CursoId, SemestreId, UsuarioId) VALUES ('46', 'Computa√ß√£o Inteligente', 4, 0, 8, 2015, 1, 99, '88')
 
 select * from dbo.PreRequisitoDisciplina
 
@@ -133,5 +134,14 @@ INSERT INTO dbo.PreRequisitoDisciplina(DisciplinaId, RequisitoDisciplinaId) VALU
 INSERT INTO dbo.PreRequisitoDisciplina(DisciplinaId, RequisitoDisciplinaId) VALUES ('46', '24')
 
 select Disciplinas.Nome as disciplina, RequisitoDisciplinaId from dbo.PreRequisitoDisciplina left join dbo.Disciplinas on DisciplinaId = Disciplinas.Id
+
+select * from dbo.MatriculaDisciplinas
+
+Insert into dbo.MatriculaDisciplinas(Status,	AlunoId,	DisciplinaId1,	DisciplinaId) values (1,88,'1',1)
+Insert into dbo.MatriculaDisciplinas(Status,	AlunoId,	DisciplinaId1,	DisciplinaId) values (1,88,'2',2)
+Insert into dbo.MatriculaDisciplinas(Status,	AlunoId,	DisciplinaId1,	DisciplinaId) values (1,88,'3',3)
+Insert into dbo.MatriculaDisciplinas(Status,	AlunoId,	DisciplinaId1,	DisciplinaId) values (1,88,'4',4)
+Insert into dbo.MatriculaDisciplinas(Status,	AlunoId,	DisciplinaId1,	DisciplinaId) values (1,88,'5',5)
+Insert into dbo.MatriculaDisciplinas(Status,	AlunoId,	DisciplinaId1,	DisciplinaId) values (1,88,'6',6)
 
 commit
