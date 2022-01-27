@@ -24,15 +24,13 @@ namespace geneticAlgorithmsApp
 
                 var disciplinasPendentes = dataContext.Disciplinas.Include(d=>d.PreRequisitoDisciplinas).AsNoTrackingWithIdentityResolution().ToList().Except(disciplinasRealizadas, new DisciplinaEqualityComparer());
 
-//                var disciplinasQueFaltam = dataContext.Disciplinas.Include(d => d.PreRequisitoDisciplinas).AsNoTracking().ToList().Except(usuario.DisciplinasRealizadas, new DisciplinaEqualityComparer());
                 usuario.DisciplinasPendentes = disciplinasPendentes.ToList();
                 usuario.DisciplinasRealizadas = disciplinasRealizadas;
                 Console.WriteLine("Gerando horário para o usuário {0}", usuario.Nome);
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
 
 
-                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario),
-                    new FitnessFunction(dataContext), new EliteSelection());
+                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario), new FitnessFunction(dataContext), new EliteSelection());
                 
                 int i = 0;
                 double best = 0;
@@ -44,10 +42,8 @@ namespace geneticAlgorithmsApp
                     best = Math.Max(best, population.FitnessSum);
                     ImprimirEstatistica(population);
 
-
-                    if (i >= 2000) //population.FitnessMax >= 0.50 || 
+                    if (population.FitnessMax >= 0) //population.FitnessMax >= 0.50 || 
                     {
-
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();
                         ImprimirHorario(population.BestChromosome);
@@ -55,15 +51,11 @@ namespace geneticAlgorithmsApp
                     }                    
                     else
                     {
-
                         Console.WriteLine("\n Tentativa {0}- FitnessMax: {1} -- Não deu :(", i, population.FitnessMax);
                         Console.WriteLine("Best = {0}", best);
                     }
                 }
-
             }
-
-
         }
 
         private static void ImprimirEstatistica(Population population)
