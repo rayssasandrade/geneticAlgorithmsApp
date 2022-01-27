@@ -22,11 +22,9 @@ namespace geneticAlgorithmsApp.src.Builder
             var chromo = chromosome as HorarioChromosome;
             var semestres = chromo.Horarios;
 
-
             var qtdCreditos = chromo.Usuario.QtdCreditosAluno;
             List<Disciplina> displinasSemestre = null;
             List<Disciplina> disciplinasRealizadasSemestre = new List<Disciplina>();
-
 
             //pegar as disciplinas que o aluno já fez
             List<Disciplina> disciplinasRealizadas = new List<Disciplina>( chromo.Usuario.DisciplinasRealizadas );
@@ -58,22 +56,16 @@ namespace geneticAlgorithmsApp.src.Builder
                     if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
                     {
                         score = 0;
-                    return score;
+                        return score;
                     }
 
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
                         score = 0;// disciplina.PreRequisitoDisciplinas.Count();
-                    return score;
+                        return score;
                     }
 
-
-
-                    //(vendo se o semestre da discplina pré requerida está menor que o semestre atual)
-                    //ver se tem todas as discplinas que falta o aluno fazer
-
-                    //obs: tem que ver tb se os creditos não foi os desse semestre, que o aluno ainda não tem
                     qtdCreditosSemestre += disciplina.QtdCreditos;
                 }
                 qtdCreditos += qtdCreditosSemestre;
@@ -85,6 +77,7 @@ namespace geneticAlgorithmsApp.src.Builder
 
 
             }
+
             score -= 0.1 * (semestres.Count-1);
             if (chromo.Usuario.QtdCreditosAluno + chromo.Usuario.QtdCreditosPendentes == qtdCreditos)
             {
@@ -92,7 +85,7 @@ namespace geneticAlgorithmsApp.src.Builder
                 return pow;
             }
             var pow1 = 0;// Math.Pow(Math.Abs(score), -1);
-                return pow1;
+            return pow1;
         }
         private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos =  new Dictionary<string, List<PreRequisitoDisciplina>>();
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
