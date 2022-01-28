@@ -22,27 +22,26 @@ namespace geneticAlgorithmsApp
 
                 var disciplinasRealizadas = usuario.MatriculaDisciplina.Select(dr => dr.Disciplina);
 
-                var disciplinasPendentes = dataContext.Disciplinas.Include(d=>d.PreRequisitoDisciplinas).AsNoTrackingWithIdentityResolution().ToList().Except(disciplinasRealizadas, new DisciplinaEqualityComparer());
+                var disciplinasPendentes = dataContext.Disciplinas.Include(d => d.PreRequisitoDisciplinas).AsNoTrackingWithIdentityResolution().ToList().Except(disciplinasRealizadas, new DisciplinaEqualityComparer());
 
                 usuario.DisciplinasPendentes = disciplinasPendentes.ToList();
                 usuario.DisciplinasRealizadas = disciplinasRealizadas;
                 Console.WriteLine("Gerando horário para o usuário {0}", usuario.Nome);
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
 
-
                 Population population = new Population(5000, new HorarioChromosome(dataContext, usuario), new FitnessFunction(dataContext), new EliteSelection());
-                
+
                 int i = 0;
                 double best = 0;
                 while (true)
                 {
-                    population.RunEpoch(); 
+                    population.RunEpoch();
                     i++;
                     Console.SetCursorPosition(0, 4);
                     best = Math.Max(best, population.FitnessSum);
                     ImprimirEstatistica(population);
 
-                    if (population.FitnessMax >= 0) //population.FitnessMax >= 0.50 || 
+                    if (population.FitnessMax > 0) //population.FitnessMax >= 0.50 || 
                     {
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();

@@ -37,9 +37,9 @@ namespace geneticAlgorithmsApp.src.Builder
                 foreach (var disciplina in displinasSemestre)
                 {
                     //retirar os horarios que o aluno não irá ter crédito
-                    if (qtdCreditos < disciplina.QtdPreRequisitosCreditos)
+                    if (qtdCreditos <= disciplina.QtdPreRequisitosCreditos)
                     {
-                        score -= disciplina.QtdPreRequisitosCreditos - qtdCreditos;
+                        score -= 3 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
                     }
 
                     //if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
@@ -50,7 +50,7 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= disciplina.PreRequisitoDisciplinas.Count();
+                        score -= 3 * (disciplina.PreRequisitoDisciplinas.Count());
                     }
                                         
                     qtdCreditosSemestre += disciplina.QtdCreditos;
@@ -63,15 +63,15 @@ namespace geneticAlgorithmsApp.src.Builder
             }
 
             //ver se tem todas as discplinas que falta o aluno fazer
-            int disciplinasFaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
-            if (disciplinasFaltantes > 0)
-            {
-                score -= disciplinasFaltantes;
-            }
+            //int disciplinasFaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
+            //if (disciplinasFaltantes > 0)
+            //{
+            //    score -= disciplinasFaltantes;
+            //}
 
             score -= 0.1 * (semestres.Count - 1);
-            
-            return score;
+
+            return score; //Math.Pow(Math.Abs(score), -1);
         }
 
         private int DisciplinasFaltantes(List<Disciplina> disciplinasRealizadas, HorarioChromosome chromo)
@@ -89,10 +89,10 @@ namespace geneticAlgorithmsApp.src.Builder
             return cont;
         }
 
-        private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos =  new Dictionary<string, List<PreRequisitoDisciplina>>();
+        private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos = new Dictionary<string, List<PreRequisitoDisciplina>>();
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
         {
-            if ( ! _preRequisitos.ContainsKey(disciplina.Id))
+            if (!_preRequisitos.ContainsKey(disciplina.Id))
             {
                 _preRequisitos[disciplina.Id] = disciplina.PreRequisitoDisciplinas.Where(c => c.DisciplinaId.Equals(disciplina.Id)).ToList();
             }
@@ -103,7 +103,7 @@ namespace geneticAlgorithmsApp.src.Builder
             int cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas)
             {
-                if (disciplinasRealizadas.Contains(value.RequisitoDisciplina))
+                if (disciplinasRealizadas.Exists(x => x.Id.Equals(value.RequisitoDisciplina.Id, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     cont += 1;
                 }
