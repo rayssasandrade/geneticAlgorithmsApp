@@ -41,7 +41,7 @@ namespace geneticAlgorithmsApp
                     best = Math.Max(best, population.FitnessSum);
                     ImprimirEstatistica(population);
 
-                    if (population.FitnessMax > 0) //population.FitnessMax >= 0.50 || 
+                    if (population.FitnessMax > 0 || i > 3000) //population.FitnessMax >= 0.50 || 
                     {
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();

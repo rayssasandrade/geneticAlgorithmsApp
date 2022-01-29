@@ -63,10 +63,10 @@ namespace geneticAlgorithmsApp.src.Builder
             }
 
             //ver se tem todas as discplinas que falta o aluno fazer
-            //int disciplinasFaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
-            //if (disciplinasFaltantes > 0)
+            //int disciplinasfaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
+            //if (disciplinasfaltantes > 0)
             //{
-            //    score -= disciplinasFaltantes;
+            //    score -= 0.2 * disciplinasfaltantes;
             //}
 
             score -= 0.1 * (semestres.Count - 1);
@@ -117,6 +117,20 @@ namespace geneticAlgorithmsApp.src.Builder
                 return true;
             }
             return false;
+        }
+
+        public static Disciplina TemDuplicidade(HorarioChromosome chromosome)
+        {
+            IDictionary<string, string> disciplinas = new Dictionary<string, string>();
+            foreach (var s in chromosome.Horarios)
+            {
+                foreach (var d in s.disciplinasSemestre)
+                {
+                    if (disciplinas.ContainsKey(d.Id)) return d;
+                    disciplinas.Add(d.Id, d.Id);
+                }
+            }
+            return null;
         }
     }
 }

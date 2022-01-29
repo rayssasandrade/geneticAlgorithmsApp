@@ -30,7 +30,7 @@ namespace geneticAlgorithmsApp.src.Builder
         //public List<List<Disciplina>> Value;
         public List<Semestre> Horarios = new List<Semestre>();
 
-        public HorarioChromosome(DataContext dataContext, Usuario usuario, int maxQtdDisciplinasDoSemestre = 18)
+        public HorarioChromosome(DataContext dataContext, Usuario usuario, int maxQtdDisciplinasDoSemestre = 8)
         {
             _dataContext = dataContext;
             Usuario = usuario;
