@@ -40,6 +40,8 @@ namespace geneticAlgorithmsApp.src.Builder
                     if (qtdCreditos > disciplina.QtdPreRequisitosCreditos)
                     {
                         score += 0.02 * disciplina.QtdCreditos;
+                    } else {
+                        score = 0.1;
                     }
 
                     //if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
@@ -50,7 +52,9 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == true)
                     {
-                        score += 0.8 * (disciplina.PreRequisitoDisciplinas.Count());
+                        score += 0.11 * (disciplina.PreRequisitoDisciplinas.Count());
+                    } else {
+                        score = 0.1;
                     }
                                         
                     qtdCreditosSemestre += disciplina.QtdCreditos;

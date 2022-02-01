@@ -59,19 +59,22 @@ namespace geneticAlgorithmsApp.src.Builder
 
             int qtdDisciplinasQueFaltam = disciplinasQueFaltam.Count();
             int qtdSemestre = Random.Next(1, qtdDisciplinasQueFaltam);
-
-            for (int i = 1; i <= qtdSemestre; i++)
+            int i = 1;
+            while (qtdDisciplinasQueFaltam > 0)
             {
                 int qtdDisciplinasNoSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre));
                 Semestre semestre = new Semestre();
-                semestre.Descricao = i.ToString();
+                Horarios.Add(semestre);
+                semestre.Descricao = i++.ToString();
                 for (int j = 0; j < qtdDisciplinasNoSemestre; j++)
                 {
-                    var idxDisciplina = Random.Next(1, qtdDisciplinasQueFaltam);
+
+                    var idxDisciplina = Random.Next(0, qtdDisciplinasQueFaltam);
                     var disciplinaAleatoria = disciplinasQueFaltam[idxDisciplina];
+                    disciplinasQueFaltam.RemoveAt(idxDisciplina);
+                    qtdDisciplinasQueFaltam--;
                     semestre.disciplinasSemestre.Add(disciplinaAleatoria);
                 }
-                Horarios.Add(semestre);
             }
         }
 
@@ -94,8 +97,31 @@ namespace geneticAlgorithmsApp.src.Builder
             var randomVal = Random.Next(qtdMin);
             for (int index = randomVal; index < qtdMin; index++)
             {
+                removerDisciplina(Horarios, otherChromsome.Horarios[index]);
                 Horarios[index] = otherChromsome.Horarios[index];
+                if (Horarios[index].disciplinasSemestre.Count == 0)
+                {
+                    Horarios.RemoveAt(index);
+                }
             } 
+        }
+
+        private void removerDisciplina(List<Semestre> horario, Semestre semestres)
+        {
+            foreach (var disciplina in semestres.disciplinasSemestre)
+            {
+                for(int i = 0; i < horario.Count; i++)
+                {
+                    for(int j = 0; j < horario[i].disciplinasSemestre.Count; j++)
+                    {
+                        if (horario[i].disciplinasSemestre[j].Id.Equals(disciplina.Id))
+                        {
+                            horario[i].disciplinasSemestre.RemoveAt(j);
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         public override void Mutate()
