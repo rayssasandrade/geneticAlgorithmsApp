@@ -37,10 +37,6 @@ namespace geneticAlgorithmsApp.src.Builder
             this.MaxQtdDisciplinasDoSemestre = maxQtdDisciplinasDoSemestre;
             Generate();
         }
-        public HorarioChromosome()
-        {
-            throw new Exception();
-        }
         public HorarioChromosome(DataContext dataContext, Usuario usuario, List<Semestre> partesRecomendacao )
         {
             _dataContext = dataContext;
@@ -59,19 +55,21 @@ namespace geneticAlgorithmsApp.src.Builder
 
             int qtdDisciplinasQueFaltam = disciplinasQueFaltam.Count();
             int qtdSemestre = Random.Next(1, qtdDisciplinasQueFaltam);
-
-            for (int i = 1; i <= qtdSemestre; i++)
+            int i = 1;
+            while (qtdDisciplinasQueFaltam > 0)
             {
                 int qtdDisciplinasNoSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre));
                 Semestre semestre = new Semestre();
-                semestre.Descricao = i.ToString();
+                Horarios.Add(semestre);
+                semestre.Descricao = i++.ToString();
                 for (int j = 0; j < qtdDisciplinasNoSemestre; j++)
                 {
-                    var idxDisciplina = Random.Next(1, qtdDisciplinasQueFaltam);
+                    var idxDisciplina = Random.Next(0, qtdDisciplinasQueFaltam);
                     var disciplinaAleatoria = disciplinasQueFaltam[idxDisciplina];
+                    disciplinasQueFaltam.RemoveAt(idxDisciplina);
+                    qtdDisciplinasQueFaltam--;
                     semestre.disciplinasSemestre.Add(disciplinaAleatoria);
                 }
-                Horarios.Add(semestre);
             }
         }
 
@@ -92,31 +90,58 @@ namespace geneticAlgorithmsApp.src.Builder
             var otherChromsome = pair as HorarioChromosome;
             int qtdMin = Math.Min(Horarios.Count, otherChromsome.Horarios.Count);
             var randomVal = Random.Next(qtdMin);
-            for (int index = randomVal; index < qtdMin; index++)
+            for (int i = randomVal; i < qtdMin; i++)
             {
-                Horarios[index] = otherChromsome.Horarios[index];
+                for (int j = 0; j < otherChromsome.Horarios[i].disciplinasSemestre.Count; j++)
+                {
+                    Disciplina substituida = otherChromsome.Horarios[i].disciplinasSemestre[j];
+                    if (Horarios[i].disciplinasSemestre.Count - 1 >= j)
+                    {
+                        Disciplina substituta = Horarios[i].disciplinasSemestre[j];
+                        Horarios = substituir(Horarios, substituida, substituta);
+                        Horarios[i].disciplinasSemestre[j] = substituida;
+                    } else
+                    {
+                        Horarios[i].disciplinasSemestre.Add(substituida);
+                    }
+                }
             } 
+        }
+
+        private List<Semestre> substituir(List<Semestre> horarios, Disciplina substituida, Disciplina substituta)
+        {
+            for (int i = 0; i < horarios.Count; i++)
+            {
+                for (int j = 0; j < horarios[i].disciplinasSemestre.Count; j++)
+                {
+                    if (horarios[i].disciplinasSemestre[j].Equals(substituida))
+                    {
+                        if (horarios[i].disciplinasSemestre.Count - 1 >= j)
+                        {
+                            horarios[i].disciplinasSemestre[j] = substituta;
+                        }
+                        else
+                        {
+                            horarios[i].disciplinasSemestre.Add(substituta);
+                        }
+                    }
+                }
+            }
+            return horarios;
         }
 
         public override void Mutate()
         {
-            var disciplinasQueFaltam = Usuario.DisciplinasPendentes;
+            int semestreA = Random.Next(Horarios.ToList().Count - 1);
+            int semestreB = Random.Next(Horarios.ToList().Count - 1);
 
-            int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count() - 1);
-            int i = 0;
-            while ( i++ < 3)
-            {
-                int semestreA = Random.Next(Horarios.ToList().Count - 1);
-                int semestreB = Random.Next(Horarios.ToList().Count - 1);
+            int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
+            int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
 
-                int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
-                int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
-
-                var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
-                var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
-                Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
-                Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
-            }
+            var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
+            var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
+            Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
+            Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
         }
     }
 }

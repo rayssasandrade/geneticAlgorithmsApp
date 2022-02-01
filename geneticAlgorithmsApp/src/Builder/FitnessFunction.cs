@@ -18,7 +18,7 @@ namespace geneticAlgorithmsApp.src.Builder
         }
         public double Evaluate(IChromosome chromosome)
         {
-            double score = 0.1;
+            double score = 1;
             var chromo = chromosome as HorarioChromosome;
             var semestres = chromo.Horarios;
 
@@ -37,9 +37,9 @@ namespace geneticAlgorithmsApp.src.Builder
                 foreach (var disciplina in displinasSemestre)
                 {
                     //retirar os horarios que o aluno não irá ter crédito
-                    if (qtdCreditos > disciplina.QtdPreRequisitosCreditos)
+                    if (qtdCreditos <= disciplina.QtdPreRequisitosCreditos)
                     {
-                        score += 0.02 * disciplina.QtdCreditos;
+                        score -= 0.08 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
                     }
 
                     //if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
@@ -48,9 +48,9 @@ namespace geneticAlgorithmsApp.src.Builder
                     //}
 
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
-                    if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == true)
+                    if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score += 0.8 * (disciplina.PreRequisitoDisciplinas.Count());
+                        score -= 0.08 * (disciplina.PreRequisitoDisciplinas.Count());
                     }
                                         
                     qtdCreditosSemestre += disciplina.QtdCreditos;
@@ -64,10 +64,13 @@ namespace geneticAlgorithmsApp.src.Builder
 
             //ver se tem todas as discplinas que falta o aluno fazer
             int disciplinasfaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
-            score += 1 - (disciplinasfaltantes / 100);
+            if (disciplinasfaltantes > 0)
+            {
+               score -= 0.05 * disciplinasfaltantes;
+            }
 
-            score += 0.5 - (semestres.Count / 100);
-            //Console.WriteLine("score: " + score);
+            score -= 0.02 * (semestres.Count - 1);
+            Console.WriteLine("score: " + score);
             return score; //Math.Pow(Math.Abs(score), -1);
         }
 
