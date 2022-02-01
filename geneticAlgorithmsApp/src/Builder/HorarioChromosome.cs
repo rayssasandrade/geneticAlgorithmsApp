@@ -95,7 +95,7 @@ namespace geneticAlgorithmsApp.src.Builder
             for (int index = randomVal; index < qtdMin; index++)
             {
                 Horarios[index] = otherChromsome.Horarios[index];
-            }
+            } 
         }
 
         public override void Mutate()

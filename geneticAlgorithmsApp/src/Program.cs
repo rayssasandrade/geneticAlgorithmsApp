@@ -41,7 +41,7 @@ namespace geneticAlgorithmsApp
                     best = Math.Max(best, population.FitnessSum);
                     ImprimirEstatistica(population);
 
-                    if (population.FitnessMax > 0 || i > 3000) //population.FitnessMax >= 0.50 || 
+                    if (i > 2000) //population.FitnessMax >= 0.50 || 
                     {
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();
@@ -64,6 +64,7 @@ namespace geneticAlgorithmsApp
             Console.WriteLine("FitnessAvg {0}", population.FitnessAvg);
             Console.WriteLine("FitnessSum {0}", population.FitnessSum);
             Console.WriteLine("CrossoverRate {0}", population.CrossoverRate);
+            Console.WriteLine("population.BestChromosome. {0}", population.BestChromosome.Fitness.ToString());
             //System.Threading.Thread.Sleep(10);
         }
 
