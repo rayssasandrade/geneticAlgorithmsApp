@@ -10,15 +10,11 @@ namespace geneticAlgorithmsApp.src.Builder
 {
     class HorarioChromosome : ChromosomeBase
     {
-        /// <summary>
         /// Máximo de disciplinas permitidas pelo IFS.
-        /// </summary>
-        /// <remarks>
         /// São no máx 15 tempos por dia (15 hr).
         /// Levando em consideração que o aluno pode pegar aulas pela manhã, tarde e noite,
         /// ele teria 15 * 5 dias. Sabendo que em média temos 4 créditos por disciplina,
-        /// o aluno pode pegar, no max 18 disciplnas por semestre, visto que, 15 * 5 / 4 = 18.75 
-        /// </remarks>
+        /// o aluno pode pegar, no max 18 disciplnas por semestre, visto que, 15 * 5 / 4 = 18.75
         public int MaxQtdDisciplinasDoSemestre { get; set; }
         public Usuario Usuario {
             get;
@@ -27,8 +23,7 @@ namespace geneticAlgorithmsApp.src.Builder
         private readonly DataContext _dataContext;
         static Random Random = new Random();
 
-        //public List<List<Disciplina>> Value;
-        public List<Semestre> Horarios = new List<Semestre>();
+        public List<ParteHorarioChromosome> Value;
 
         public HorarioChromosome(DataContext dataContext, Usuario usuario, int maxQtdDisciplinasDoSemestre = 8)
         {
@@ -37,11 +32,11 @@ namespace geneticAlgorithmsApp.src.Builder
             this.MaxQtdDisciplinasDoSemestre = maxQtdDisciplinasDoSemestre;
             Generate();
         }
-        public HorarioChromosome(DataContext dataContext, Usuario usuario, List<Semestre> partesRecomendacao )
+        public HorarioChromosome(DataContext dataContext, Usuario usuario, List<ParteHorarioChromosome> partesRecomendacao )
         {
             _dataContext = dataContext;
             Usuario = usuario;
-            Horarios = partesRecomendacao.ToList();
+            Value = partesRecomendacao.ToList();
         }
 
         public override void Generate()
@@ -50,32 +45,43 @@ namespace geneticAlgorithmsApp.src.Builder
             //máximo permitido pelo Curso
             //TO DO: corrigir essa quantidade máxima
 
-            //retirar as displinas que o aluno já fez
-            var disciplinasQueFaltam = Usuario.DisciplinasPendentes.ToList();
-
-            int qtdDisciplinasQueFaltam = disciplinasQueFaltam.Count();
-            int qtdSemestre = Random.Next(1, qtdDisciplinasQueFaltam);
-            int i = 1;
-            while (qtdDisciplinasQueFaltam > 0)
+            IEnumerable<ParteHorarioChromosome> generateRandomHorarios()
             {
+                //retirar as displinas que o aluno já fez
+                var disciplinasQueFaltam = Usuario.DisciplinasPendentes.ToList();
+                int qtdDisciplinasQueFaltam = disciplinasQueFaltam.Count();
                 int qtdDisciplinasNoSemestre = Random.Next(1, Math.Min(qtdDisciplinasQueFaltam, MaxQtdDisciplinasDoSemestre));
-                Semestre semestre = new Semestre();
-                Horarios.Add(semestre);
-                semestre.Descricao = i++.ToString();
+                List<Disciplina> semestre = new List<Disciplina>();
                 for (int j = 0; j < qtdDisciplinasNoSemestre; j++)
                 {
                     var idxDisciplina = Random.Next(0, qtdDisciplinasQueFaltam);
                     var disciplinaAleatoria = disciplinasQueFaltam[idxDisciplina];
                     disciplinasQueFaltam.RemoveAt(idxDisciplina);
                     qtdDisciplinasQueFaltam--;
-                    semestre.disciplinasSemestre.Add(disciplinaAleatoria);
+                    semestre.Add(disciplinaAleatoria);
                 }
+
+                string descricao = "";
+                if (Value == null)
+                {
+                    descricao = "1";
+                } else
+                {
+                    descricao = Value.Count.ToString();
+                }
+
+                yield return new ParteHorarioChromosome() {
+                    Descricao = descricao,
+                    disciplinasSemestre = semestre.ToList()
+                };
             }
+
+            Value = generateRandomHorarios().ToList();
         }
 
         public override IChromosome Clone()
         {
-            return new HorarioChromosome(_dataContext, Usuario, Horarios);
+            return new HorarioChromosome(_dataContext, Usuario, Value);
         }
 
         public override IChromosome CreateNew()
@@ -88,60 +94,22 @@ namespace geneticAlgorithmsApp.src.Builder
         public override void Crossover(IChromosome pair)
         {
             var otherChromsome = pair as HorarioChromosome;
-            int qtdMin = Math.Min(Horarios.Count, otherChromsome.Horarios.Count);
+            int qtdMin = Math.Min(Value.Count, otherChromsome.Value.Count);
             var randomVal = Random.Next(qtdMin);
-            for (int i = randomVal; i < qtdMin; i++)
+            for (int index = randomVal; index < qtdMin; index++)
             {
-                for (int j = 0; j < otherChromsome.Horarios[i].disciplinasSemestre.Count; j++)
-                {
-                    Disciplina substituida = otherChromsome.Horarios[i].disciplinasSemestre[j];
-                    if (Horarios[i].disciplinasSemestre.Count - 1 >= j)
-                    {
-                        Disciplina substituta = Horarios[i].disciplinasSemestre[j];
-                        Horarios = substituir(Horarios, substituida, substituta);
-                        Horarios[i].disciplinasSemestre[j] = substituida;
-                    } else
-                    {
-                        Horarios[i].disciplinasSemestre.Add(substituida);
-                    }
-                }
-            } 
-        }
-
-        private List<Semestre> substituir(List<Semestre> horarios, Disciplina substituida, Disciplina substituta)
-        {
-            for (int i = 0; i < horarios.Count; i++)
-            {
-                for (int j = 0; j < horarios[i].disciplinasSemestre.Count; j++)
-                {
-                    if (horarios[i].disciplinasSemestre[j].Equals(substituida))
-                    {
-                        if (horarios[i].disciplinasSemestre.Count - 1 >= j)
-                        {
-                            horarios[i].disciplinasSemestre[j] = substituta;
-                        }
-                        else
-                        {
-                            horarios[i].disciplinasSemestre.Add(substituta);
-                        }
-                    }
-                }
+                Value[index] = otherChromsome.Value[index];
             }
-            return horarios;
         }
 
         public override void Mutate()
         {
-            int semestreA = Random.Next(Horarios.ToList().Count - 1);
-            int semestreB = Random.Next(Horarios.ToList().Count - 1);
+            var disciplinasQueFaltam = Usuario.DisciplinasPendentes;
 
-            int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
-            int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
-
-            var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
-            var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
-            Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
-            Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
+            //alteatoriamente selecionei um semestre, retirei uma disciplina  e inseri outra discplina
+            int idxRecomendacao = Random.Next(disciplinasQueFaltam.Count() - 1);
+            int semestre = Random.Next(Value.ToList().Count - 1);
+            int index2 = Random.Next(Value[semestre].disciplinasSemestre.Count - 1);
         }
     }
 }

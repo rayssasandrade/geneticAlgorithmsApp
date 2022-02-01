@@ -5,6 +5,8 @@ using geneticAlgorithmsApp.src.Builder;
 using geneticAlgorithmsApp.src.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+
 namespace geneticAlgorithmsApp
 {
     class Program
@@ -72,11 +74,11 @@ namespace geneticAlgorithmsApp
         {
             var best = bestChromosome as HorarioChromosome;
 
-            Console.WriteLine("Vai realizar o curso com {0} semestres", best.Horarios.Count);
+            Console.WriteLine("Vai realizar o curso com {0} semestres", best.Value.Count);
             Console.WriteLine("Pressione para continuar");
             Console.ReadKey();
             var qtd = 0;
-            foreach (Semestre s in best.Horarios)
+            foreach (ParteHorarioChromosome s in best.Value)
             {
                 qtd += ImprimirSemestre(s);
             }
@@ -84,7 +86,7 @@ namespace geneticAlgorithmsApp
 
         }
 
-        private static int ImprimirSemestre(Semestre s)
+        private static int ImprimirSemestre(ParteHorarioChromosome s)
         {
 
             Console.WriteLine("\n ============ Semestre {0} com {1} Disciplinas ============ ", s.Descricao, s.disciplinasSemestre.Count);

@@ -20,7 +20,7 @@ namespace geneticAlgorithmsApp.src.Builder
         {
             double score = 1;
             var chromo = chromosome as HorarioChromosome;
-            var semestres = chromo.Horarios;
+            var semestres = chromo.Value;
 
             var qtdCreditos = chromo.Usuario.QtdCreditosAluno;
             List<Disciplina> displinasSemestre = null;
@@ -122,7 +122,7 @@ namespace geneticAlgorithmsApp.src.Builder
         public static Disciplina TemDuplicidade(HorarioChromosome chromosome)
         {
             IDictionary<string, string> disciplinas = new Dictionary<string, string>();
-            foreach (var s in chromosome.Horarios)
+            foreach (var s in chromosome.Value)
             {
                 foreach (var d in s.disciplinasSemestre)
                 {
