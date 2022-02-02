@@ -10,15 +10,11 @@ namespace geneticAlgorithmsApp.src.Builder
 {
     class HorarioChromosome : ChromosomeBase
     {
-        /// <summary>
         /// Máximo de disciplinas permitidas pelo IFS.
-        /// </summary>
-        /// <remarks>
         /// São no máx 15 tempos por dia (15 hr).
         /// Levando em consideração que o aluno pode pegar aulas pela manhã, tarde e noite,
         /// ele teria 15 * 5 dias. Sabendo que em média temos 4 créditos por disciplina,
-        /// o aluno pode pegar, no max 18 disciplnas por semestre, visto que, 15 * 5 / 4 = 18.75 
-        /// </remarks>
+        /// o aluno pode pegar, no max 18 disciplnas por semestre, visto que, 15 * 5 / 4 = 18.75
         public int MaxQtdDisciplinasDoSemestre { get; set; }
         public Usuario Usuario {
             get;
@@ -26,8 +22,6 @@ namespace geneticAlgorithmsApp.src.Builder
         }
         private readonly DataContext _dataContext;
         static Random Random = new Random();
-
-        //public List<List<Disciplina>> Value;
         public List<Semestre> Horarios = new List<Semestre>();
 
         public HorarioChromosome(DataContext dataContext, Usuario usuario, int maxQtdDisciplinasDoSemestre = 8)
@@ -71,6 +65,7 @@ namespace geneticAlgorithmsApp.src.Builder
                     semestre.disciplinasSemestre.Add(disciplinaAleatoria);
                 }
             }
+            removerVazios(Horarios);
         }
 
         public override IChromosome Clone()
@@ -81,7 +76,7 @@ namespace geneticAlgorithmsApp.src.Builder
         public override IChromosome CreateNew()
         {
             var recomendacaoChromosome = new HorarioChromosome(_dataContext, Usuario);
-            recomendacaoChromosome.Generate();
+            //recomendacaoChromosome.Generate();
             return recomendacaoChromosome;
         }
 
@@ -94,54 +89,83 @@ namespace geneticAlgorithmsApp.src.Builder
             {
                 for (int j = 0; j < otherChromsome.Horarios[i].disciplinasSemestre.Count; j++)
                 {
-                    Disciplina substituida = otherChromsome.Horarios[i].disciplinasSemestre[j];
+                    Disciplina substituta = otherChromsome.Horarios[i].disciplinasSemestre[j];
                     if (Horarios[i].disciplinasSemestre.Count - 1 >= j)
                     {
-                        Disciplina substituta = Horarios[i].disciplinasSemestre[j];
-                        Horarios = substituir(Horarios, substituida, substituta);
-                        Horarios[i].disciplinasSemestre[j] = substituida;
+                        Disciplina substituida = Horarios[i].disciplinasSemestre[j];
+                        substituir(Horarios, substituta, substituida);
+                        Horarios[i].disciplinasSemestre[j] = substituta;
                     } else
                     {
-                        Horarios[i].disciplinasSemestre.Add(substituida);
+                        removerDisciplina(Horarios, substituta);
+                        Horarios[i].disciplinasSemestre.Add(substituta);
                     }
                 }
-            } 
+            }
+            removerVazios(Horarios);
         }
 
-        private List<Semestre> substituir(List<Semestre> horarios, Disciplina substituida, Disciplina substituta)
+        private void removerVazios(List<Semestre> horarios)
+        {
+            int i = 0;
+            while (horarios.Count > i)
+            {
+                if (horarios[i].disciplinasSemestre.Count <= 0)
+                {
+                    horarios.RemoveAt(i);
+                } else
+                {
+                    i++;
+                }
+            }
+        }
+
+        private void removerDisciplina(List<Semestre> horarios, Disciplina substituta)
         {
             for (int i = 0; i < horarios.Count; i++)
             {
                 for (int j = 0; j < horarios[i].disciplinasSemestre.Count; j++)
                 {
-                    if (horarios[i].disciplinasSemestre[j].Equals(substituida))
+                    if (horarios[i].disciplinasSemestre[j].Equals(substituta))
                     {
-                        if (horarios[i].disciplinasSemestre.Count - 1 >= j)
-                        {
-                            horarios[i].disciplinasSemestre[j] = substituta;
-                        }
-                        else
-                        {
-                            horarios[i].disciplinasSemestre.Add(substituta);
-                        }
+                        horarios[i].disciplinasSemestre.RemoveAt(j);
+                        break;
                     }
                 }
             }
-            return horarios;
+        }
+
+        private void substituir(List<Semestre> horarios, Disciplina substituta, Disciplina substituida)
+        {
+            for (int i = 0; i < horarios.Count; i++)
+            {
+                for (int j = 0; j < horarios[i].disciplinasSemestre.Count; j++)
+                {
+                    if (horarios[i].disciplinasSemestre[j].Equals(substituta))
+                    {
+                        horarios[i].disciplinasSemestre[j] = substituida;
+                        break;
+                    }
+                }
+            }
         }
 
         public override void Mutate()
         {
-            int semestreA = Random.Next(Horarios.ToList().Count - 1);
-            int semestreB = Random.Next(Horarios.ToList().Count - 1);
+            removerVazios(Horarios);
+            if (Horarios.ToList().Count > 0)
+            {
+                int semestreA = Random.Next(Horarios.ToList().Count - 1);
+                int semestreB = Random.Next(Horarios.ToList().Count - 1);
 
-            int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
-            int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
+                int idxDisciplinaA = Random.Next(Horarios[semestreA].disciplinasSemestre.Count - 1);
+                int idxDisciplinaB = Random.Next(Horarios[semestreB].disciplinasSemestre.Count - 1);
 
-            var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
-            var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
-            Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
-            Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
+                var discA = Horarios[semestreA].disciplinasSemestre[idxDisciplinaA];
+                var discB = Horarios[semestreB].disciplinasSemestre[idxDisciplinaB];
+                Horarios[semestreA].disciplinasSemestre[idxDisciplinaA] = discB;
+                Horarios[semestreB].disciplinasSemestre[idxDisciplinaB] = discA;
+            }
         }
     }
 }
