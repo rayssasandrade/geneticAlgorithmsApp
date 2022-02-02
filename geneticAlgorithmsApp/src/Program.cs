@@ -29,10 +29,13 @@ namespace geneticAlgorithmsApp
                 Console.WriteLine("Gerando horário para o usuário {0}", usuario.Nome);
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
 
-                Population population = new Population(1000, new HorarioChromosome(dataContext, usuario), new FitnessFunction(dataContext), new EliteSelection());
+                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario), new FitnessFunction(dataContext), new EliteSelection());
 
                 int i = 0;
                 double best = 0;
+                int maxQtdDisciplinasDoSemestre = 8;//usuario.Curso.MaxTempoDia;
+                int qtdPendentes = usuario.DisciplinasPendentes.ToList().Count();
+                double parada = 0.995 + (double)qtdPendentes / 8 / 1000;
                 while (true)
                 {
                     population.RunEpoch();
@@ -40,7 +43,7 @@ namespace geneticAlgorithmsApp
                     Console.SetCursorPosition(0, 4);
                     ImprimirEstatistica(population);
 
-                    if (population.FitnessMax > 0.99) // population.FitnessMax > 0.8 
+                    if (population.FitnessMax > parada || i > 5000) // population.FitnessMax > 0.8 
                     {
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();
