@@ -27,45 +27,27 @@ namespace geneticAlgorithmsApp.src.Builder
             List<Disciplina> disciplinasRealizadasSemestre = new List<Disciplina>();
 
             //pegar as disciplinas que o aluno já fez
-            List<Disciplina> disciplinasRealizadas = new List<Disciplina>( chromo.Usuario.DisciplinasRealizadas );
-            
+            List<Disciplina> disciplinasRealizadas = new List<Disciplina>(chromo.Usuario.DisciplinasRealizadas);
+
             foreach (var semetre in semestres)
             {
                 displinasSemestre = semetre.disciplinasSemestre;
                 int qtdCreditosSemestre = 0;
 
-                var ds = displinasSemestre
-                    .GroupBy(d => d.Nome)
-                    .Where(ds => ds.Count() > 1)
-                    .Select(d => new { Id = d.Key, Qtd = d.Count() });
-                if (ds.Count() > 0)
-                {
-                    score = 0;
-                    return score;
-                }
-
                 foreach (var disciplina in displinasSemestre)
                 {
                     //retirar os horarios que o aluno não irá ter crédito
-                    if (qtdCreditos < disciplina.QtdPreRequisitosCreditos )
+                    if (qtdCreditos <= disciplina.QtdPreRequisitosCreditos)
                     {
-                        score = 0;//disciplina.QtdPreRequisitosCreditos - qtdCreditos;
-                        return score;
-                    }
-
-                    if (disciplinasRealizadas.Exists(dr => dr.Id == disciplina.Id))
-                    {
-                        score = 0;
-                        return score;
+                        score -= 0.02 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
                     }
 
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score = 0;// disciplina.PreRequisitoDisciplinas.Count();
-                        return score;
+                        score -= 0.1 * (disciplina.PreRequisitoDisciplinas.Count());
                     }
-
+                                        
                     qtdCreditosSemestre += disciplina.QtdCreditos;
                 }
                 qtdCreditos += qtdCreditosSemestre;
@@ -73,24 +55,38 @@ namespace geneticAlgorithmsApp.src.Builder
                 //Incluo na variável temporária as disciplinas da foto com aquelas que ele já fez.
                 disciplinasRealizadas.AddRange(semetre.disciplinasSemestre);
 
-                score -= 0.3 * (displinasSemestre.Count-1);
-
-
             }
 
-            score -= 0.1 * (semestres.Count-1);
-            if (chromo.Usuario.QtdCreditosAluno + chromo.Usuario.QtdCreditosPendentes == qtdCreditos)
+            //ver se tem todas as discplinas que falta o aluno fazer
+            int disciplinasfaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
+            if (disciplinasfaltantes > 0)
             {
-                var pow = Math.Pow(Math.Abs(score), -1);
-                return pow;
+               score = 0.0001;
             }
-            var pow1 = 0;// Math.Pow(Math.Abs(score), -1);
-            return pow1;
+             
+            score -= 0.001 * (semestres.Count - 1);
+            return score; //Math.Pow(Math.Abs(score), -1);
         }
-        private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos =  new Dictionary<string, List<PreRequisitoDisciplina>>();
+
+        private int DisciplinasFaltantes(List<Disciplina> disciplinasRealizadas, HorarioChromosome chromo)
+        {
+            //pegar as disciplinas que o aluno já fez
+            List<Disciplina> disciplinasPendentes = new List<Disciplina>(chromo.Usuario.DisciplinasPendentes);
+            int cont = 0;
+            foreach (var disciplina in disciplinasPendentes)
+            {
+                if (!disciplinasRealizadas.Contains(disciplina))
+                {
+                    cont += 1;
+                }
+            }
+            return cont;
+        }
+
+        private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos = new Dictionary<string, List<PreRequisitoDisciplina>>();
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
         {
-            if ( ! _preRequisitos.ContainsKey(disciplina.Id))
+            if (!_preRequisitos.ContainsKey(disciplina.Id))
             {
                 _preRequisitos[disciplina.Id] = disciplina.PreRequisitoDisciplinas.Where(c => c.DisciplinaId.Equals(disciplina.Id)).ToList();
             }
@@ -101,7 +97,7 @@ namespace geneticAlgorithmsApp.src.Builder
             int cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas)
             {
-                if (disciplinasRealizadas.Contains(value.RequisitoDisciplina))
+                if (disciplinasRealizadas.Exists(x => x.Id.Equals(value.RequisitoDisciplina.Id, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     cont += 1;
                 }
@@ -115,6 +111,20 @@ namespace geneticAlgorithmsApp.src.Builder
                 return true;
             }
             return false;
+        }
+
+        public static Disciplina TemDuplicidade(HorarioChromosome chromosome)
+        {
+            IDictionary<string, string> disciplinas = new Dictionary<string, string>();
+            foreach (var s in chromosome.Horarios)
+            {
+                foreach (var d in s.disciplinasSemestre)
+                {
+                    if (disciplinas.ContainsKey(d.Id)) return d;
+                    disciplinas.Add(d.Id, d.Id);
+                }
+            }
+            return null;
         }
     }
 }

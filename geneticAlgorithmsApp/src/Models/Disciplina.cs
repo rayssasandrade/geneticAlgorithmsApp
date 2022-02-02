@@ -23,6 +23,10 @@ namespace geneticAlgorithmsApp.src.Models
         {
             return $"{Id} - {Nome}";
         }
+        public bool Equals(Disciplina outra)
+        {
+            return new DisciplinaEqualityComparer().Equals(this, outra);
+        }
     }
     public class DisciplinaEqualityComparer : IEqualityComparer<Disciplina>
     {
