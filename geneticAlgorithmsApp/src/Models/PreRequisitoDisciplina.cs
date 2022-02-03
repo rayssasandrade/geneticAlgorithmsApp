@@ -5,6 +5,7 @@ using System.Text;
 
 namespace geneticAlgorithmsApp.src.Models
 {
+    [Table("PreRequisitoDisciplina")]
     public class PreRequisitoDisciplina
     {
         public int Id { get; set; }

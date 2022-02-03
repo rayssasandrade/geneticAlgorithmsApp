@@ -5,6 +5,8 @@ using geneticAlgorithmsApp.src.Builder;
 using geneticAlgorithmsApp.src.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+
 namespace geneticAlgorithmsApp
 {
     class Program
@@ -28,12 +30,13 @@ namespace geneticAlgorithmsApp
                 usuario.DisciplinasRealizadas = disciplinasRealizadas;
                 Console.WriteLine("Gerando horário para o usuário {0}", usuario.Nome);
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
+                int maxQtdDisciplinasDoSemestre = 8;//usuario.Curso.MaxTempoDia;
 
-                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario), new FitnessFunction(dataContext), new EliteSelection());
-
+                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario, maxQtdDisciplinasDoSemestre), 
+                    new FitnessFunction(dataContext), new EliteSelection());
+                var preRequisitos = dataContext.PreRequisitoDisciplinas.ToList();
                 int i = 0;
                 double best = 0;
-                int maxQtdDisciplinasDoSemestre = 8;//usuario.Curso.MaxTempoDia;
                 int qtdPendentes = usuario.DisciplinasPendentes.ToList().Count();
                 double parada = 0.995 + (double)qtdPendentes / 8 / 1000;
                 while (true)
@@ -42,12 +45,16 @@ namespace geneticAlgorithmsApp
                     i++;
                     Console.SetCursorPosition(0, 4);
                     ImprimirEstatistica(population);
+                    PlotarHorario(population.BestChromosome, preRequisitos);
 
+                    Console.ReadKey();
                     if (population.FitnessMax > parada || i > 5000) // population.FitnessMax > 0.8 
                     {
                         Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();
-                        ImprimirHorario(population.BestChromosome);
+                        var BestChromosome = population.BestChromosome;
+                        ImprimirHorario(BestChromosome);
+                        PlotarHorario(BestChromosome, preRequisitos);
                         break;
                     }                    
                     else
@@ -57,6 +64,14 @@ namespace geneticAlgorithmsApp
                     }
                 }
             }
+        }
+
+        private static void PlotarHorario(IChromosome bestChromosome, List<PreRequisitoDisciplina> preRequisitos)
+        {
+            var best = bestChromosome as HorarioChromosome;
+
+            TextCopy.ClipboardService.SetText(best.PlotCode(preRequisitos));
+            throw new NotImplementedException("Código do gráfico gerado e copiado para a área de transferência. Use o site https://dreampuf.github.io/GraphvizOnline para visualizar.");
         }
 
         private static void ImprimirEstatistica(Population population)
@@ -73,6 +88,7 @@ namespace geneticAlgorithmsApp
         private static void ImprimirHorario(IChromosome bestChromosome)
         {
             var best = bestChromosome as HorarioChromosome;
+            
 
             Console.WriteLine("Vai realizar o curso com {0} semestres", best.Horarios.Count);
             Console.WriteLine("Pressione para continuar");
@@ -96,5 +112,7 @@ namespace geneticAlgorithmsApp
             }
             return s.disciplinasSemestre.Count;
         }
+
+       
     }
 }

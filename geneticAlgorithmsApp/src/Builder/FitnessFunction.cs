@@ -39,13 +39,13 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar os horarios que o aluno não irá ter crédito
                     if (qtdCreditos <= disciplina.QtdPreRequisitosCreditos)
                     {
-                        score -= 0.02 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos);
+                        score -= (0.02 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos));
                     }
 
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= 0.1 * (disciplina.PreRequisitoDisciplinas.Count());
+                        score -= (0.1 * disciplina.PreRequisitoDisciplinas.Count());
                     }
                                         
                     qtdCreditosSemestre += disciplina.QtdCreditos;
@@ -83,7 +83,7 @@ namespace geneticAlgorithmsApp.src.Builder
             return cont;
         }
 
-        private IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos = new Dictionary<string, List<PreRequisitoDisciplina>>();
+        private static IDictionary<string, List<PreRequisitoDisciplina>> _preRequisitos = new Dictionary<string, List<PreRequisitoDisciplina>>();
         private bool FezDiscplinasPreRequeridas(Disciplina disciplina, List<Disciplina> disciplinasRealizadas)
         {
             if (!_preRequisitos.ContainsKey(disciplina.Id))
@@ -93,11 +93,10 @@ namespace geneticAlgorithmsApp.src.Builder
             var preRequisitos = _preRequisitos[disciplina.Id];
             if (preRequisitos == null || preRequisitos.Count() == 0) return true;
 
-
-            int cont = 0;
+            var cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas)
             {
-                if (disciplinasRealizadas.Exists(x => x.Id.Equals(value.RequisitoDisciplina.Id, StringComparison.InvariantCultureIgnoreCase)))
+                if (disciplinasRealizadas.Any(x => x.Id.Equals(value.RequisitoDisciplina.Id, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     cont += 1;
                 }
@@ -113,15 +112,20 @@ namespace geneticAlgorithmsApp.src.Builder
             return false;
         }
 
+        /// <summary>
+        /// Melhorar este método, está consumindo muito tempo
+        /// </summary>
+        /// <param name="chromosome"></param>
+        /// <returns></returns>
         public static Disciplina TemDuplicidade(HorarioChromosome chromosome)
         {
-            IDictionary<string, string> disciplinas = new Dictionary<string, string>();
+            IDictionary<string, byte> disciplinas = new Dictionary<string, byte>();
             foreach (var s in chromosome.Horarios)
             {
                 foreach (var d in s.disciplinasSemestre)
                 {
                     if (disciplinas.ContainsKey(d.Id)) return d;
-                    disciplinas.Add(d.Id, d.Id);
+                    disciplinas.Add(d.Id, 1);
                 }
             }
             return null;
