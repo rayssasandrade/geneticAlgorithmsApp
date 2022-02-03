@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace geneticAlgorithmsApp.src.Builder
 {
-    class HorarioChromosome : ChromosomeBase
+    public class HorarioChromosome : ChromosomeBase
     {
         /// Máximo de disciplinas permitidas pelo IFS.
         /// São no máx 15 tempos por dia (15 hr).

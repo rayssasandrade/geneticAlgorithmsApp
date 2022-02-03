@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 namespace geneticAlgorithmsApp.src.Data
 {
-    class DataContext : DbContext
+    public class DataContext : DbContext
     {
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<Disciplina> Disciplinas { get; set; }
