@@ -45,7 +45,7 @@ namespace geneticAlgorithmsApp
                     i++;
                     Console.SetCursorPosition(0, 4);
                     ImprimirEstatistica(population);
-                    PlotarHorario(population.BestChromosome, preRequisitos);
+                    //PlotarHorario(population.BestChromosome, preRequisitos);
 
                     Console.ReadKey();
                     if (population.FitnessMax > parada || i > 5000) // population.FitnessMax > 0.8 

@@ -50,6 +50,10 @@
               "target": "Package",
               "version": "[3.8.0, )"
             },
+            "GraphViz.NET": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "Microsoft.AspNetCore.Razor.Design": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -97,6 +101,10 @@
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "TextCopy": {
+              "target": "Package",
+              "version": "[6.1.0, )"
             }
           },
           "imports": [

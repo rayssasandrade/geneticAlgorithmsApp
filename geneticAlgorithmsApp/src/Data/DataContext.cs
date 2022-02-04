@@ -21,8 +21,8 @@ namespace geneticAlgorithmsApp.src.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["BancoDados"].ConnectionString);
-//"Integrated Security=SSPI; Password=123; User ID=sa; Initial Catalog=GeneticAlgorithms; Data Source=LAPTOP-02VG7CTT\\SQLEXPRESS");
+                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["BancoDados"].ConnectionString);
+                optionsBuilder.UseSqlServer("Integrated Security=SSPI; Password=123; User ID=sa; Initial Catalog=GeneticAlgorithms; Data Source=LAPTOP-02VG7CTT\\SQLEXPRESS");
             }
         }
 
