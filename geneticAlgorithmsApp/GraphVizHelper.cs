@@ -21,7 +21,7 @@ namespace geneticAlgorithmsApp
         //}
         public static string PlotCode(this HorarioChromosome horario, List<PreRequisitoDisciplina> preRequisitos)
         {
-            var horarioGerado = string.Join(" ", horario.Horarios.ConvertAll<string>(x => x.PlotCode(horario.Usuario)));
+            var horarioGerado = string.Join(" ", horario.Horario.ConvertAll<string>(x => x.PlotCode(horario.Usuario)));
             var disciplinasPendentes = string.Join("\n", horario.Usuario.DisciplinasPendentes.ToList().ConvertAll<string>(d => $"{int.Parse(d.Id)} node [label=\"{d.Nome.Replace(" ", "\n")}\" style=filled,color=red]"));
             var disciplinasOK = string.Join("\n", horario.Usuario.DisciplinasRealizadas.ToList().ConvertAll<string>(d => $"{int.Parse(d.Id)} node [label=\"{d.Nome.Replace(" ", "\n")}\" style=filled,color=green]"));
             return string.Format(@"
@@ -39,10 +39,10 @@ digraph{{
     
 }}",
                     disciplinasOK + disciplinasPendentes,
-                    string.Join("\n", horario.Horarios.ConvertAll<string>( s => $"start -> {s.disciplinasSemestre.First().Id}")),
+                    string.Join("\n", horario.Horario.ConvertAll<string>( s => $"start -> {s.disciplinasSemestre.First().Id}")),
                     preRequisitos.PlotCode(),
                     horarioGerado,
-                    string.Join("\n", horario.Horarios.ConvertAll<string>(s => $"{s.disciplinasSemestre.Last().Id} -> end"))
+                    string.Join("\n", horario.Horario.ConvertAll<string>(s => $"{s.disciplinasSemestre.Last().Id} -> end"))
 
 
             );
