@@ -97,7 +97,7 @@ namespace geneticAlgorithmsApp
             var best = bestChromosome as HorarioChromosome;
             
 
-            Console.WriteLine("Vai realizar o curso com {0} semestres", best.Horarios.Count);
+            Console.WriteLine("Vai realizar o curso com {0} semestres", best.Horario.Count);
             Console.WriteLine("Pressione para continuar");
             Console.ReadKey();
             var qtd = 0;
