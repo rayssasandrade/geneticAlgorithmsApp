@@ -13,7 +13,7 @@ namespace geneticAlgorithmsApp
     {
         static void Main(string[] args)
         {
-            var idUsuario = 88;
+            var idUsuario = 99;
             // userFake.DisciplinasRealizadas deve ser carregado aqui tb
             using (var dataContext = new DataContext())
             {
@@ -31,9 +31,10 @@ namespace geneticAlgorithmsApp
                 Console.WriteLine("Gerando horário para o usuário {0}", usuario.Nome);
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
                 int maxQtdDisciplinasDoSemestre = 8;//usuario.Curso.MaxTempoDia;
-
                 Population population = new Population(5000, new HorarioChromosome(dataContext, usuario, maxQtdDisciplinasDoSemestre), 
                     new FitnessFunction(dataContext), new EliteSelection());
+                population.MutationRate = 0.1;
+                population.CrossoverRate = 0.1;
                 var preRequisitos = dataContext.PreRequisitoDisciplinas.ToList();
                 int i = 0;
                 double best = 0;
@@ -48,10 +49,14 @@ namespace geneticAlgorithmsApp
                     //PlotarHorario(population.BestChromosome, preRequisitos);
 
                     Console.ReadKey();
-                    if (population.FitnessMax > parada || i > 5000) // population.FitnessMax > 0.8 
+                    if (i > 200 || population.FitnessMax > parada) // population.FitnessMax > 0.8 
                     {
-                        Console.WriteLine("OBAAAAAAA");
                         Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine("===============================================================");
+                        Console.WriteLine();
+                        ImprimirEstatistica(population);
+                        Console.WriteLine("Geração: " + i);
                         var BestChromosome = population.BestChromosome;
                         ImprimirHorario(BestChromosome);
                         PlotarHorario(BestChromosome, preRequisitos);
@@ -80,7 +85,9 @@ namespace geneticAlgorithmsApp
             Console.WriteLine("FitnessMax {0}", population.FitnessMax);
             Console.WriteLine("FitnessAvg {0}", population.FitnessAvg);
             Console.WriteLine("FitnessSum {0}", population.FitnessSum);
+            Console.WriteLine("Size {0}", population.Size);
             Console.WriteLine("CrossoverRate {0}", population.CrossoverRate);
+            Console.WriteLine("MutationRate {0}", population.MutationRate);
             Console.WriteLine("population.BestChromosome. {0}", population.BestChromosome.Fitness.ToString());
             //System.Threading.Thread.Sleep(10);
         }
@@ -94,18 +101,23 @@ namespace geneticAlgorithmsApp
             Console.WriteLine("Pressione para continuar");
             Console.ReadKey();
             var qtd = 0;
+            var numSemestre = 1;
             foreach (Semestre s in best.Horarios)
             {
-                qtd += ImprimirSemestre(s);
+                if (s.disciplinasSemestre.Count > 0)
+                {
+                    qtd += ImprimirSemestre(s, numSemestre);
+                    numSemestre++;
+                }
             }
             Console.WriteLine("Total de {0} disciplinas", qtd);
 
         }
 
-        private static int ImprimirSemestre(Semestre s)
+        private static int ImprimirSemestre(Semestre s,int num)
         {
 
-            Console.WriteLine("\n ============ Semestre {0} com {1} Disciplinas ============ ", s.Descricao, s.disciplinasSemestre.Count);
+            Console.WriteLine("\n ============ Semestre {0} com {1} Disciplinas ============ ", num, s.disciplinasSemestre.Count);
             foreach (Disciplina d in s.disciplinasSemestre)
             {
                 Console.WriteLine(" - {0}", d.Nome);

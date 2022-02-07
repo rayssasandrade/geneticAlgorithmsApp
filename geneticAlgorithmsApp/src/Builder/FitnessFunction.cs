@@ -37,6 +37,7 @@ namespace geneticAlgorithmsApp.src.Builder
                 foreach (var disciplina in displinasSemestre)
                 {
                     //retirar os horarios que o aluno não irá ter crédito
+                    
                     if (qtdCreditos <= disciplina.QtdPreRequisitosCreditos)
                     {
                         score -= (0.02 * (disciplina.QtdPreRequisitosCreditos - qtdCreditos));
@@ -63,7 +64,14 @@ namespace geneticAlgorithmsApp.src.Builder
             {
                score = 0.0001;
             }
-             
+
+            //ver se repete discplinas
+            var duplicadas = TemDuplicidade(chromo);
+            if (duplicadas != null)
+            {
+                score = 0.0001;
+            }
+
             score -= 0.001 * (semestres.Count - 1);
             return score; //Math.Pow(Math.Abs(score), -1);
         }
@@ -96,7 +104,8 @@ namespace geneticAlgorithmsApp.src.Builder
             var cont = 0;
             foreach (var value in disciplina.PreRequisitoDisciplinas)
             {
-                if (disciplinasRealizadas.Any(x => x.Id.Equals(value.RequisitoDisciplina.Id, StringComparison.InvariantCultureIgnoreCase)))
+                //if (disciplinasRealizadas.Any(x => x.Id.Equals(value.RequisitoDisciplina.Id, StringComparison.InvariantCultureIgnoreCase)))
+                if(disciplinasRealizadas.Exists(x => x.Id == value.RequisitoDisciplina.Id) == true)
                 {
                     cont += 1;
                 }
