@@ -46,7 +46,7 @@ namespace geneticAlgorithmsApp.src.Builder
                     //retirar as que ele ainda não tem o pre requisito necessário (não tem a disciplina de prerequisito)
                     if (FezDiscplinasPreRequeridas(disciplina, disciplinasRealizadas) == false)
                     {
-                        score -= (0.1 * disciplina.PreRequisitoDisciplinas.Count());
+                        score -= (0.2 * disciplina.PreRequisitoDisciplinas.Count());
                     }
                                         
                     qtdCreditosSemestre += disciplina.QtdCreditos;
@@ -62,14 +62,15 @@ namespace geneticAlgorithmsApp.src.Builder
             int disciplinasfaltantes = DisciplinasFaltantes(disciplinasRealizadas, chromo);
             if (disciplinasfaltantes > 0)
             {
-               score = 0.0001;
-            }
-
-            //ver se repete discplinas
-            var duplicadas = TemDuplicidade(chromo);
-            if (duplicadas != null)
+               score = 0.01;
+            } else
             {
-                score = 0.0001;
+                //ver se repete discplinas
+                var duplicadas = TemDuplicidade(disciplinasRealizadas);
+                if (duplicadas != null)
+                {
+                    score = 0.01;
+                }
             }
 
             score -= 0.001 * (semestres.Count - 1);
@@ -126,16 +127,13 @@ namespace geneticAlgorithmsApp.src.Builder
         /// </summary>
         /// <param name="chromosome"></param>
         /// <returns></returns>
-        public static Disciplina TemDuplicidade(HorarioChromosome chromosome)
+        public static Disciplina TemDuplicidade(List<Disciplina> disciplinasRealizadas)
         {
             IDictionary<string, byte> disciplinas = new Dictionary<string, byte>();
-            foreach (var s in chromosome.Horarios)
+            foreach (var d in disciplinasRealizadas)
             {
-                foreach (var d in s.disciplinasSemestre)
-                {
-                    if (disciplinas.ContainsKey(d.Id)) return d;
-                    disciplinas.Add(d.Id, 1);
-                }
+                if (disciplinas.ContainsKey(d.Id)) return d;
+                disciplinas.Add(d.Id, 1);
             }
             return null;
         }

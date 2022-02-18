@@ -31,10 +31,10 @@ namespace geneticAlgorithmsApp
                 Console.WriteLine("Gerando horário para o usuário {0}", usuario.Nome);
                 Console.WriteLine("Ele fez {0}/{1}, mas ainda precisa passar em {2} disciplinas", usuario.QtdCreditosAluno, usuario.QtdCreditosPendentes, usuario.DisciplinasPendentes.Count);
                 int maxQtdDisciplinasDoSemestre = 8;//usuario.Curso.MaxTempoDia;
-                Population population = new Population(5000, new HorarioChromosome(dataContext, usuario, maxQtdDisciplinasDoSemestre), 
+                Population population = new Population(4000, new HorarioChromosome(dataContext, usuario, maxQtdDisciplinasDoSemestre), 
                     new FitnessFunction(dataContext), new EliteSelection());
                 population.MutationRate = 0.1;
-                population.CrossoverRate = 0.1;
+                population.CrossoverRate = 0.2;
                 var preRequisitos = dataContext.PreRequisitoDisciplinas.ToList();
                 int i = 0;
                 double best = 0;
@@ -49,7 +49,7 @@ namespace geneticAlgorithmsApp
                     //PlotarHorario(population.BestChromosome, preRequisitos);
 
                     Console.ReadKey();
-                    if (i > 200 || population.FitnessMax > parada) // population.FitnessMax > 0.8 
+                    if (i > 500 || population.FitnessMax > parada) // population.FitnessMax > 0.8 
                     {
                         Console.WriteLine();
                         Console.WriteLine();
